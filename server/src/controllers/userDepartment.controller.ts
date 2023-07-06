@@ -1,6 +1,5 @@
 import { entityManager } from "@/db";
 import Department from "@/entities/Department";
-import UserDepartment from "@/entities/UserDepartment";
 
 import { Request, Response } from "express";
 
@@ -43,10 +42,4 @@ export const addUser = async (req: Request, res: Response) => {
   if (!departmentId) {
     return res.status(400).json();
   }
-
-  const { userId, role } = req.body;
-
-  await entityManager
-    .getRepository(UserDepartment)
-    .addUser(departmentId, userId, role);
 };

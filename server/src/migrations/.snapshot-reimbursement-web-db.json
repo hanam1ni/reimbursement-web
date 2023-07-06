@@ -304,6 +304,16 @@
       "schema": "public",
       "indexes": [
         {
+          "keyName": "user_department_user_id_department_id_unique",
+          "columnNames": [
+            "user_id",
+            "department_id"
+          ],
+          "composite": true,
+          "primary": false,
+          "unique": true
+        },
+        {
           "keyName": "user_department_pkey",
           "columnNames": [
             "id"

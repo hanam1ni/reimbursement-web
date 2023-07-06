@@ -1,9 +1,16 @@
-import { Entity, Enum, ManyToOne } from "@mikro-orm/core";
+import {
+  Entity,
+  EntityRepositoryType,
+  Enum,
+  ManyToOne,
+  Unique,
+} from "@mikro-orm/core";
 import { IsEnum, IsNotEmpty } from "class-validator";
 
 import { BaseEntity } from "./BaseEntity";
 import User from "./User";
 import Department from "./Department";
+import UserDepartmentRepository from "@/repositories/userDepartment.repository";
 
 interface UserDepartmentParams {
   user: User;
@@ -16,8 +23,11 @@ export enum UserDepartmentRole {
   MEMBER = "member",
 }
 
-@Entity()
+@Unique({ properties: ["user", "department"] })
+@Entity({ customRepository: () => UserDepartmentRepository })
 export default class UserDepartment extends BaseEntity {
+  [EntityRepositoryType]?: UserDepartmentRepository;
+
   @ManyToOne()
   user: User;
 
