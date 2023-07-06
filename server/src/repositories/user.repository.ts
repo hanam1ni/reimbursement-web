@@ -1,16 +1,10 @@
-import { EntityRepository } from "@mikro-orm/postgresql";
-
-import User, { UserParams } from "@/entities/User";
 import { entityManager } from "@/db";
-import {
-  UniqueConstraintViolationException,
-  ValidationError,
-  wrap,
-} from "@mikro-orm/core";
-import { validate } from "class-validator";
-import { buildIsNotUniqueError } from "@/helpers/errorHelper";
 import Role from "@/entities/Role";
-import UserRole from "@/entities/UserRole";
+import User, { UserParams } from "@/entities/User";
+import { buildIsNotUniqueError } from "@/helpers/errorHelper";
+import { UniqueConstraintViolationException, wrap } from "@mikro-orm/core";
+import { EntityRepository } from "@mikro-orm/postgresql";
+import { validate } from "class-validator";
 import { pick } from "radash";
 
 export default class UserRepository extends EntityRepository<User> {

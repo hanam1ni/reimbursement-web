@@ -13,7 +13,7 @@ export default function AuthLayout({
         <div className="mr-8 border-r-2">
           <AuthHero />
         </div>
-        <div>{children}</div>
+        <div className="basis-[300px]">{children}</div>
       </main>
     </div>
   );

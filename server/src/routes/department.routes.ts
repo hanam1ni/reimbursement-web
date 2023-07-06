@@ -11,6 +11,6 @@ router.use(authenticateUser);
 router.post("/departments", departmentController.createDepartment);
 router.get("/departments", departmentController.listDepartment);
 router.get("/departments/:id", departmentController.getDepartment);
-router.post("/departments/:id/assign-user", departmentController.assignUser);
+router.post("/departments/:id/assign-user", departmentController.addUser);
 
 export default router;

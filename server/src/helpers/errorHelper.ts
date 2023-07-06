@@ -1,6 +1,7 @@
 export const buildErrorResponse = (
   errors: { property: string; constraints: object }[]
 ) => {
+  console.log(errors);
   const formattedError = errors.map(({ property, constraints }) => {
     return { property, constraints: Object.keys(constraints || {}) };
   });
@@ -11,5 +12,5 @@ export const buildErrorResponse = (
 export const buildIsNotUniqueError = (message: string) => {
   const property = message.split(" ").slice(-1)[0].replace(/"/g, "");
 
-  return { property, constraints: { isNotUnique: "" } };
+  return [{ property, constraints: { isNotUnique: "" } }];
 };
