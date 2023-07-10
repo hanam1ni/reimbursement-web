@@ -1,6 +1,10 @@
 import { entityManager } from "@/db";
 import Department from "@/entities/Department";
 import UserDepartment from "@/entities/UserDepartment";
+import {
+  buildPaginationResponse,
+  parsePageNumber,
+} from "@/helpers/paginationHelper";
 
 import { Request, Response } from "express";
 
@@ -18,9 +22,16 @@ export const createDepartment = async (req: Request, res: Response) => {
 };
 
 export const listDepartment = async (req: Request, res: Response) => {
-  const departments = await entityManager.getRepository(Department).findAll();
+  const { page } = req.query;
+  const pageNumber = parsePageNumber(page);
 
-  res.json(departments);
+  const { departments, count } = await entityManager
+    .getRepository(Department)
+    .listDepartment(pageNumber);
+
+  const body = buildPaginationResponse(departments, pageNumber, count);
+
+  res.json(body);
 };
 
 export const getDepartment = async (req: Request, res: Response) => {

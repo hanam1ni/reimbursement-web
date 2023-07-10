@@ -1,12 +1,15 @@
-import { UniqueConstraintViolationException } from "@mikro-orm/core";
-import { EntityRepository } from "@mikro-orm/postgresql";
-import { validate } from "class-validator";
-
 import { entityManager } from "@/db";
 import Department, { DepartmentParams } from "@/entities/Department";
 import User from "@/entities/User";
-import { buildIsNotUniqueError } from "@/helpers/errorHelper";
 import UserDepartment, { UserDepartmentRole } from "@/entities/UserDepartment";
+import { buildIsNotUniqueError } from "@/helpers/errorHelper";
+import { RECORD_PER_PAGE } from "@/helpers/paginationHelper";
+import {
+  QueryOrder,
+  UniqueConstraintViolationException,
+} from "@mikro-orm/core";
+import { EntityRepository } from "@mikro-orm/postgresql";
+import { validate } from "class-validator";
 
 export default class DepartmentRepository extends EntityRepository<Department> {
   async createDepartment(params: DepartmentParams, userIds: number[]) {
@@ -48,5 +51,20 @@ export default class DepartmentRepository extends EntityRepository<Department> {
     const department = await this.findOne({ id }, { populate: ["users"] });
 
     return department;
+  }
+
+  async listDepartment(page: number) {
+    const offset = (page - 1) * RECORD_PER_PAGE;
+
+    const departments = await this.qb("d")
+      .select("d.*, COUNT(*) OVER() as total_count, COUNT(u.id) as user_count")
+      .orderBy({ id: QueryOrder.DESC })
+      .limit(RECORD_PER_PAGE, offset)
+      .leftJoin("d.users", "u")
+      .groupBy("d.id");
+
+    const count = departments[0] ? departments[0].totalCount : 0;
+
+    return { departments, count };
   }
 }

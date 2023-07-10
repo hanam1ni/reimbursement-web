@@ -10,7 +10,7 @@ const Input = React.forwardRef<
       ref={ref}
       type={type || "text"}
       className={classNames(
-        "input h-10 border border-gray-300 rounded-sm bg-gray-100 focus:outline-primary",
+        "input h-10 border border-gray-300 rounded-sm bg-gray-100 autofill:bg-transparent focus:outline-primary",
         className
       )}
       {...props}

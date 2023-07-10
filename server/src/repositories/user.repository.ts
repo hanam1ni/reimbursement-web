@@ -2,7 +2,12 @@ import { entityManager } from "@/db";
 import Role from "@/entities/Role";
 import User, { UserParams } from "@/entities/User";
 import { buildIsNotUniqueError } from "@/helpers/errorHelper";
-import { UniqueConstraintViolationException, wrap } from "@mikro-orm/core";
+import { RECORD_PER_PAGE } from "@/helpers/paginationHelper";
+import {
+  QueryOrder,
+  UniqueConstraintViolationException,
+  wrap,
+} from "@mikro-orm/core";
 import { EntityRepository } from "@mikro-orm/postgresql";
 import { validate } from "class-validator";
 import { pick } from "radash";
@@ -44,5 +49,21 @@ export default class UserRepository extends EntityRepository<User> {
     }
 
     return entityManager.flush();
+  }
+
+  async listUsers(page: number) {
+    const offset = (page - 1) * RECORD_PER_PAGE;
+
+    const [users, count] = await this.findAndCount(
+      {},
+      {
+        orderBy: { id: QueryOrder.DESC },
+        limit: RECORD_PER_PAGE,
+        offset,
+        populate: ["roles"],
+      }
+    );
+
+    return { users, count };
   }
 }

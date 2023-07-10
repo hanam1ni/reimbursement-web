@@ -2,10 +2,11 @@
 
 import Input from "@/components/Input";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { login } from "@/adapters/auth";
+import { login } from "@/adapters/client/auth";
 import { useState } from "react";
 import Toast from "../Toast";
 import { AxiosError } from "axios";
+import { useRouter } from "next/navigation";
 
 interface ILoginFormInput {
   email: string;
@@ -13,6 +14,7 @@ interface ILoginFormInput {
 }
 
 export default function LoginForm() {
+  const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
 
@@ -23,8 +25,9 @@ export default function LoginForm() {
     const { email, password } = data;
 
     try {
-      const resp = await login({ email, password });
-      console.log(resp);
+      await login({ email, password });
+
+      router.push("/");
     } catch (error) {
       setIsSubmitting(false);
 

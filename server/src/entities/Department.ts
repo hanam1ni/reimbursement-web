@@ -26,6 +26,12 @@ export default class Department extends BaseEntity {
   @ManyToMany({ entity: () => User, mappedBy: (user) => user.departments })
   users = new Collection<User>(this);
 
+  @Property({ persist: false, hidden: true })
+  totalCount?: number;
+
+  @Property({ persist: false })
+  userCount?: number;
+
   constructor({ name }: DepartmentParams) {
     super();
 

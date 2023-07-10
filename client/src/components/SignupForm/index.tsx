@@ -2,7 +2,7 @@
 import Input from "@/components/Input";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { signup } from "@/adapters/auth";
+import { signup } from "@/adapters/client/auth";
 import { useRouter } from "next/navigation";
 
 interface IRegisterFormInput {

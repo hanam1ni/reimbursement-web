@@ -10,5 +10,7 @@ const router = Router();
 router.use(authenticateUser);
 router.put("/users/:id", userController.updateUser);
 router.get("/me", userController.me);
+router.post("/users-dummy", userController.createDummyUser);
+router.get("/users", userController.listUser);
 
 export default router;
