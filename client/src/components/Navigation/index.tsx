@@ -3,6 +3,7 @@
 import {
   IconDefinition,
   faBuilding,
+  faEnvelope,
   faRectangleList,
   faUser,
 } from "@fortawesome/free-regular-svg-icons";
@@ -36,6 +37,12 @@ const NAVIGATION_ITEMS = [
     icon: faRectangleList,
     label: "Departments",
     key: "departments",
+  },
+  {
+    href: "/requests",
+    icon: faEnvelope,
+    label: "Requests",
+    key: "requests",
   },
 ];
 

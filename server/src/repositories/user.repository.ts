@@ -51,18 +51,20 @@ export default class UserRepository extends EntityRepository<User> {
     return entityManager.flush();
   }
 
-  async listUsers(page: number) {
+  async listUsers(page: number, options: { keyword?: string } = {}) {
     const offset = (page - 1) * RECORD_PER_PAGE;
 
-    const [users, count] = await this.findAndCount(
-      {},
-      {
-        orderBy: { id: QueryOrder.DESC },
-        limit: RECORD_PER_PAGE,
-        offset,
-        populate: ["roles"],
-      }
-    );
+    const queryOpts: { email?: RegExp } = {};
+    if (options.keyword) {
+      queryOpts.email = new RegExp(options.keyword);
+    }
+
+    const [users, count] = await this.findAndCount(queryOpts, {
+      orderBy: { id: QueryOrder.DESC },
+      limit: RECORD_PER_PAGE,
+      offset,
+      populate: ["roles"],
+    });
 
     return { users, count };
   }

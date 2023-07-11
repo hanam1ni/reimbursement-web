@@ -7,9 +7,9 @@
 }
 
 .tr {
-  @apply cursor-pointer transition hover:bg-gray-100 hover:text-primary;
+  @apply transition hover:bg-gray-100 hover:text-primary;
 }
 
 .td {
-  @apply py-3 border-y first:pl-3;
+  @apply py-2 border-y first:pl-3;
 }

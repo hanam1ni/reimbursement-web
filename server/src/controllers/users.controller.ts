@@ -42,13 +42,25 @@ export const createDummyUser = async (req: Request, res: Response) => {
   return res.status(200).json(user);
 };
 
+const validateOption = (req: Request) => {
+  const { keyword } = req.query;
+  const parsedKeyword = String(keyword);
+  const options: { keyword?: string } = {};
+
+  if (parsedKeyword.length > 3) {
+    options.keyword = parsedKeyword;
+  }
+
+  return options;
+};
+
 export const listUser = async (req: Request, res: Response) => {
   const { page } = req.query;
   const pageNumber = parsePageNumber(page);
 
   const { users, count } = await entityManager
     .getRepository(User)
-    .listUsers(pageNumber);
+    .listUsers(pageNumber, validateOption(req));
 
   const body = buildPaginationResponse(users, pageNumber, count);
 

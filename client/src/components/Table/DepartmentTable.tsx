@@ -10,13 +10,8 @@ import React from "react";
 
 import style from "./Table.module.scss";
 import { Department } from "@/adapters/server/department";
-
-interface User {
-  firstName: string;
-  lastName: string;
-  email: string;
-  roles: { name: string }[];
-}
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 
 const columnHelper = createColumnHelper<Department>();
 
@@ -28,6 +23,31 @@ const columns = [
   columnHelper.accessor("userCount", {
     id: "userCount",
     header: () => <th className={`w-1/5 ${style.th}`}>Member</th>,
+  }),
+  columnHelper.display({
+    id: "action",
+    header: () => <th className={`w-1/5 ${style.th}`}></th>,
+    cell: () => (
+      <div className="dropdown dropdown-end">
+        <label
+          tabIndex={0}
+          className=" flex items-center p-1 cursor-pointer transition rounded-md hover:bg-gray-200"
+        >
+          <FontAwesomeIcon icon={faEllipsis} className="w-4 h-4" />
+        </label>
+        <ul
+          tabIndex={0}
+          className="dropdown-content z-[1] menu p-2 shadow bg-gray-200 rounded-box w-52"
+        >
+          <li>
+            <a>Edit</a>
+          </li>
+          <li>
+            <a>Delete</a>
+          </li>
+        </ul>
+      </div>
+    ),
   }),
 ];
 
