@@ -47,7 +47,7 @@ const validateOption = (req: Request) => {
   const parsedKeyword = String(keyword);
   const options: { keyword?: string } = {};
 
-  if (parsedKeyword.length > 3) {
+  if (parsedKeyword.length >= 3) {
     options.keyword = parsedKeyword;
   }
 

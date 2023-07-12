@@ -7,7 +7,7 @@ import session from "express-session";
 import logger from "morgan";
 
 import { entityManager, initializeDB } from "./db";
-import initializeAuth from "./middlewares/auth";
+import initializeAuth from "./middlewares/authentication";
 import initializeRouter from "./routes";
 import { filterEmptyString } from "./middlewares/requestBody";
 

@@ -1,11 +1,9 @@
+import UserEntity from "@/entities/User";
+
 export {};
 
 declare global {
   namespace Express {
-    interface User {
-      id: string;
-      email: string;
-      name: string;
-    }
+    interface User extends UserEntity {}
   }
 }

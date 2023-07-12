@@ -16,9 +16,9 @@ export default async function DepartmentsPage({
   return (
     <div className="h-full flex flex-col">
       <div className="mb-8 flex justify-between items-center">
-        <h1 className="text-2xl font-semibold">Departments</h1>
+        <h1>Departments</h1>
         <Link href={"/departments/new"}>
-          <Button>
+          <Button size="sm">
             {" "}
             <FontAwesomeIcon icon={faPlus} />
             New

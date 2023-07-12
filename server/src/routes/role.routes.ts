@@ -1,4 +1,4 @@
-import { authenticateUser } from "@/middlewares/auth";
+import { authenticateUser } from "@/middlewares/authentication";
 import * as roleController from "@/controllers/role.controller";
 import { Router } from "express";
 

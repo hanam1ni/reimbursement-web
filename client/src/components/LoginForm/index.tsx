@@ -8,7 +8,7 @@ import Toast from "../Toast";
 import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 
-interface ILoginFormInput {
+interface ILoginForm {
   email: string;
   password: string;
 }
@@ -18,8 +18,8 @@ export default function LoginForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
 
-  const { register, handleSubmit } = useForm<ILoginFormInput>();
-  const onSubmit: SubmitHandler<ILoginFormInput> = async (data) => {
+  const { register, handleSubmit } = useForm<ILoginForm>();
+  const onSubmit: SubmitHandler<ILoginForm> = async (data) => {
     setIsSubmitting(true);
 
     const { email, password } = data;

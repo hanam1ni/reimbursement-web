@@ -1,4 +1,4 @@
-import { Entity, ManyToOne } from "@mikro-orm/core";
+import { Entity, ManyToOne, Unique } from "@mikro-orm/core";
 import { BaseEntity } from "./BaseEntity";
 
 import { User } from "@ngneat/falso";
@@ -9,6 +9,7 @@ export interface RoleParams {
   role: Role;
 }
 
+@Unique({ properties: ["user", "role"] })
 @Entity()
 export default class UserRole extends BaseEntity {
   @ManyToOne()
