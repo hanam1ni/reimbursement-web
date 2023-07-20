@@ -4,6 +4,8 @@ import {
   buildPaginationResponse,
   parsePageNumber,
 } from "@/helpers/paginationHelper";
+import { sendEmail } from "@/services/mailer/baseMailer";
+import { queue } from "@/workers";
 import { randFirstName, randLastName, randEmail } from "@ngneat/falso";
 import { Request, Response } from "express";
 

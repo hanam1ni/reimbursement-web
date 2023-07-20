@@ -2,11 +2,23 @@ import { entityManager } from "@/db";
 import ExpenseClaim from "@/entities/ExpenseClaim";
 import User from "@/entities/User";
 import { RECORD_PER_PAGE } from "@/helpers/paginationHelper";
+import { queue } from "@/workers";
 import { QueryOrder } from "@mikro-orm/core";
 import { EntityRepository } from "@mikro-orm/postgresql";
 import { validate } from "class-validator";
 
 export default class ExpenseClaimRepository extends EntityRepository<ExpenseClaim> {
+  async getExpenseClaim(id: number, { populate }: { populate?: any } = {}) {
+    const expenseClaim = await this.findOne(
+      { id },
+      {
+        populate: populate || [],
+      }
+    );
+
+    return expenseClaim;
+  }
+
   async createExpenseClaim(user: User, amount: number) {
     const expenseClaim = new ExpenseClaim({ amount });
     expenseClaim.createdBy = user;
@@ -18,6 +30,7 @@ export default class ExpenseClaimRepository extends EntityRepository<ExpenseClai
     }
 
     await entityManager.persistAndFlush(expenseClaim);
+    queue.add("CreatedExpenseClaim", { expenseClaimId: expenseClaim.id });
 
     return { expenseClaim };
   }

@@ -5,11 +5,11 @@ import cors from "cors";
 import express from "express";
 import session from "express-session";
 import logger from "morgan";
-
 import { entityManager, initializeDB } from "./db";
 import initializeAuth from "./middlewares/authentication";
-import initializeRouter from "./routes";
 import { filterEmptyString } from "./middlewares/requestBody";
+import initializeRouter from "./routes";
+import { initializeQueue } from "./workers";
 
 const initializeServer = async () => {
   const PostgresqlStore = genSessionStore(session);
@@ -41,6 +41,7 @@ const initializeServer = async () => {
   app.use((req, res, next) => RequestContext.create(entityManager, next));
 
   initializeAuth(app);
+  initializeQueue();
 
   app.use(logger("dev"));
   app.use(express.json());

@@ -1,21 +1,21 @@
 version: "3.8"
 services:
-  server:
-    build:
-      context: ./server
-      dockerfile: Dockerfile
-      target: dev
-    container_name: reimbursement-web-server
-    depends_on:
-      - postgres
-    volumes:
-      - ./server:/app
-      - /app/node_modules
-    ports:
-      - "3001:3001"
-    environment:
-      NODE_ENV: development
-      DATABASE_URL: postgres://postgres:postgres@postgres:5432/reimbursement-web-db
+  # server:
+  #   build:
+  #     context: ./server
+  #     dockerfile: Dockerfile
+  #     target: dev
+  #   container_name: reimbursement-web-server
+  #   depends_on:
+  #     - postgres
+  #   volumes:
+  #     - ./server:/app
+  #     - /app/node_modules
+  #   ports:
+  #     - "3001:3001"
+  #   environment:
+  #     NODE_ENV: development
+  #     DATABASE_URL: postgres://postgres:postgres@postgres:5432/reimbursement-web-db
 
   postgres:
     image: postgres:15.3
@@ -29,22 +29,32 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: reimbursement-web-db
 
-  client:
-    build:
-      context: ./client
-      dockerfile: Dockerfile
-      target: dev
-    container_name: reimbursement-web-client
-    depends_on:
-      - server
-    volumes:
-      - ./client:/app
-      - /app/node_modules
+  redis:
+    image: redis:7.0.12-alpine
+    container_name: reimbursement-web-redis
+    restart: always
     ports:
-      - "3000:3000"
-    environment:
-      NODE_ENV: development
-      BASE_API_URL: server
+      - "6379:6379"
+    volumes:
+      - cache:/data
+
+  # client:
+  #   build:
+  #     context: ./client
+  #     dockerfile: Dockerfile
+  #     target: dev
+  #   container_name: reimbursement-web-client
+  #   depends_on:
+  #     - server
+  #   volumes:
+  #     - ./client:/app
+  #     - /app/node_modules
+  #   ports:
+  #     - "3000:3000"
+  #   environment:
+  #     NODE_ENV: development
+  #     BASE_API_URL: server
 
 volumes:
   db:
+  cache:
