@@ -8,7 +8,7 @@ import {
 } from "@tanstack/react-table";
 import React from "react";
 
-import style from "./Table.module.scss";
+import style from "../Table.module.scss";
 import { User } from "@/adapters/server/user";
 
 const columnHelper = createColumnHelper<User>();

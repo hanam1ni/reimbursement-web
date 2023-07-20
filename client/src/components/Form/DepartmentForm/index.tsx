@@ -1,18 +1,14 @@
 "use client";
 
-import Button from "../Button";
-import Input from "../Input";
-import { SubmitHandler, useForm } from "react-hook-form";
-import UserSelect from "./UserSelect";
-import { User } from "@/adapters/client/user";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
 import { createDepartment } from "@/adapters/client/department";
-import Toast from "../Toast";
-import { motion } from "framer-motion";
-import UserCard from "./SelectedUserList";
+import { User } from "@/adapters/client/user";
+import Button from "@/components/Button";
+import Input from "@/components/Input";
+import Toast from "@/components/Toast";
+import { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import SelectedUserList from "./SelectedUserList";
+import UserSelect from "./UserSelect";
 
 interface IDepartmentForm {
   name: string;

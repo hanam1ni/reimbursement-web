@@ -79,7 +79,7 @@ function NavigationItem({ active, href, icon, label }: NavigationItemProps) {
   return (
     <Link href={href}>
       <li
-        className={`px-5 py-3 mx-1 mb-1 flex items-center rounded-lg text-sm font-medium cursor-pointer transition hover:bg-gray-300 ${classNames(
+        className={`px-5 py-3 mx-1 mb-1 flex items-center rounded-lg text-sm font-medium cursor-pointer transition hover:bg-gray-100 ${classNames(
           { [activeItemClasses]: active }
         )}`}
       >

@@ -1,5 +1,5 @@
 import BackNavigation from "@/components/BackNavigation";
-import DepartmentForm from "@/components/DepartmentForm";
+import DepartmentForm from "@/components/Form/DepartmentForm";
 
 export default function NewDepartmentPage() {
   return (

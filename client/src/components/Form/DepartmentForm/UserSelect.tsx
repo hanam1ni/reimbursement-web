@@ -3,7 +3,7 @@
 import { User, listUsers } from "@/adapters/client/user";
 import { debounce } from "radash";
 import { useEffect, useRef, useState } from "react";
-import Input from "../Input";
+import Input from "@/components/Input";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserSecret } from "@fortawesome/free-solid-svg-icons";
 

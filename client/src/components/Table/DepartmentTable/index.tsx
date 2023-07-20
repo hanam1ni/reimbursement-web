@@ -7,8 +7,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import React from "react";
-
-import style from "./Table.module.scss";
+import style from "../Table.module.scss";
 import { Department } from "@/adapters/server/department";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
