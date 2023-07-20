@@ -7,6 +7,10 @@ export interface ExpenseClaim {
   status: string;
   createdAt: string;
   updatedAt: string;
+  createdBy: {
+    firstName: string;
+    lastName: string;
+  };
 }
 
 export const listMyExpenseClaim = (page: any) => {
@@ -14,5 +18,13 @@ export const listMyExpenseClaim = (page: any) => {
 
   return baseAdapter.get<baseAdapter.ListApiResponse<ExpenseClaim>>(
     `/my-expense-claims?page=${pageNumber}`
+  );
+};
+
+export const listDepartmentExpenseClaim = (page: any) => {
+  const pageNumber = parsePageNumber(page);
+
+  return baseAdapter.get<baseAdapter.ListApiResponse<ExpenseClaim>>(
+    `/department-expense-claims?page=${pageNumber}`
   );
 };

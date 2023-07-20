@@ -5,6 +5,7 @@ import {
   Entity,
   EntityRepositoryType,
   ManyToMany,
+  OneToMany,
   Property,
 } from "@mikro-orm/core";
 import bcrypt from "bcrypt";
@@ -43,6 +44,9 @@ export default class User extends BaseEntity {
   @Property({ hidden: true })
   @IsNotEmpty()
   password: string;
+
+  @OneToMany(() => UserDepartment, (userDepartment) => userDepartment.user)
+  userDepartments = new Collection<UserDepartment>(this);
 
   @ManyToMany({ entity: () => Department, pivotEntity: () => UserDepartment })
   departments = new Collection<Department>(this);

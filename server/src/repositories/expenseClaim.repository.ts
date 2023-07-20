@@ -1,5 +1,5 @@
 import { entityManager } from "@/db";
-import ExpenseClaim from "@/entities/ExpenseClaim";
+import ExpenseClaim, { ExpenseClaimStatus } from "@/entities/ExpenseClaim";
 import User from "@/entities/User";
 import { RECORD_PER_PAGE } from "@/helpers/paginationHelper";
 import { queue } from "@/workers";
@@ -48,6 +48,25 @@ export default class ExpenseClaimRepository extends EntityRepository<ExpenseClai
       limit: RECORD_PER_PAGE,
       offset,
     });
+
+    return { expenseClaims, count };
+  }
+
+  async listExpenseClaimForDepartment(page: number, departmentIds: number[]) {
+    const offset = (page - 1) * RECORD_PER_PAGE;
+
+    const [expenseClaims, count] = await this.findAndCount(
+      {
+        status: ExpenseClaimStatus.created,
+        createdBy: { departments: departmentIds },
+      },
+      {
+        orderBy: { id: QueryOrder.DESC },
+        limit: RECORD_PER_PAGE,
+        populate: ["createdBy.departments"],
+        offset,
+      }
+    );
 
     return { expenseClaims, count };
   }

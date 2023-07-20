@@ -12,7 +12,10 @@ export default async function MyRequestsPage({
   return (
     <>
       <div className="mb-8 flex-1">
-        <ExpenseClaimTable data={expenseClaims.data.data} />
+        <ExpenseClaimTable
+          data={expenseClaims.data.data}
+          hideRequestedBy={true}
+        />
       </div>
       <Pagination searchParams={searchParams} {...expenseClaims.data.page} />
     </>

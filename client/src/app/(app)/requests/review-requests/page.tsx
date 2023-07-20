@@ -1,4 +1,4 @@
-import { listMyExpenseClaim } from "@/adapters/server/expenseClaim";
+import { listDepartmentExpenseClaim } from "@/adapters/server/expenseClaim";
 import Pagination from "@/components/Pagination";
 import ExpenseClaimTable from "@/components/Table/ExpenseClaimTable";
 
@@ -7,7 +7,7 @@ export default async function ReviewRequestsPage({
 }: ServerPageProps) {
   const { page } = searchParams;
 
-  const expenseClaims = await listMyExpenseClaim(page);
+  const expenseClaims = await listDepartmentExpenseClaim(page);
 
   return (
     <>

@@ -8,12 +8,12 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { default as dayjs } from "dayjs";
-import React from "react";
+import React, { useMemo } from "react";
 import style from "../Table.module.scss";
 
 const columnHelper = createColumnHelper<ExpenseClaim>();
 
-const columns = [
+let columns = [
   columnHelper.accessor("id", {
     id: "id",
     header: () => <th className={`w-1/12 ${style.th}`}>Id</th>,
@@ -29,33 +29,54 @@ const columns = [
   }),
   columnHelper.accessor("status", {
     id: "status",
-    header: () => <th className={`w-3/12 ${style.th}`}>Status</th>,
+    header: () => <th className={`w-2/12 ${style.th}`}>Status</th>,
     cell: (info) => (
       <div className="badge badge-primary text-xs font-medium capitalize">
         {info.getValue()}
       </div>
     ),
   }),
+  columnHelper.accessor(
+    (row) => `${row.createdBy.firstName} ${row.createdBy.lastName}`,
+    {
+      id: "requestedBy",
+      header: () => <th className={`w-2/12 ${style.th}`}>Requested By</th>,
+    }
+  ),
   columnHelper.accessor("createdAt", {
     id: "createdAt",
-    header: () => <th className={`w-3/12 ${style.th}`}>Requested At</th>,
+    header: () => <th className={`w-2/12 ${style.th}`}>Requested At</th>,
     cell: (info) => (
       <span>{dayjs(info.getValue()).format("DD MMMM YYYY")}</span>
     ),
   }),
   columnHelper.accessor("updatedAt", {
     id: "updatedAt",
-    header: () => <th className={`w-3/12 ${style.th}`}>Last Updated</th>,
+    header: () => <th className={`w-2/12 ${style.th}`}>Last Updated</th>,
     cell: (info) => (
       <span>{dayjs(info.getValue()).format("DD MMMM YYYY")}</span>
     ),
   }),
 ];
 
-export default function ExpenseClaimTable({ data }: { data: any }) {
+export default function ExpenseClaimTable({
+  data,
+  hideRequestedBy,
+}: {
+  data: any;
+  hideRequestedBy?: boolean;
+}) {
+  const tableColumns = useMemo(() => {
+    if (hideRequestedBy) {
+      return columns.filter(({ id }) => id != "requestedBy");
+    }
+
+    return columns;
+  }, [hideRequestedBy]);
+
   const table = useReactTable({
     data,
-    columns,
+    columns: tableColumns,
     getCoreRowModel: getCoreRowModel(),
   });
 

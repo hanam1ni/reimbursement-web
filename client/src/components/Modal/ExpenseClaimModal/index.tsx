@@ -7,6 +7,7 @@ import BaseModal from "@/components/Modal/BaseModal";
 import Toast from "@/components/Toast";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
@@ -17,9 +18,9 @@ interface IExpenseClaimForm {
 export default function ExpenseClaimModal() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
+  const pathname = usePathname();
 
-  const { register, handleSubmit, setValue, getValues, watch } =
-    useForm<IExpenseClaimForm>();
+  const { register, handleSubmit } = useForm<IExpenseClaimForm>();
 
   const onSubmit: SubmitHandler<IExpenseClaimForm> = async (data) => {
     setIsSubmitting(true);
@@ -27,7 +28,7 @@ export default function ExpenseClaimModal() {
     try {
       await createExpenseClaim(data);
 
-      window.location.href = "/requests/my-requests";
+      window.location.href = pathname;
     } catch (error) {
       setIsSubmitting(false);
 

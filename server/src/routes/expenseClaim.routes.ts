@@ -8,6 +8,10 @@ const router = Router();
 
 router.use(authenticateUser);
 router.get("/my-expense-claims", expenseClaimController.listMyExpenseClaim);
+router.get(
+  "/department-expense-claims",
+  expenseClaimController.listDepartmentExpenseClaim
+);
 router.post("/expense-claims", expenseClaimController.createExpenseClaim);
 
 export default router;

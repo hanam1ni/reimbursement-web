@@ -18,7 +18,10 @@ const initializeAuth = (app: Express) => {
   passport.deserializeUser(async function (user: any, done: any) {
     const userFromDB = await entityManager
       .getRepository(User)
-      .findOne({ email: user.email }, { populate: ["roles"] });
+      .findOne(
+        { email: user.email },
+        { populate: ["roles", "userDepartments"] }
+      );
 
     if (!userFromDB) {
       return done(null, null);

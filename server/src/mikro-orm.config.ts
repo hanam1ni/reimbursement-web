@@ -11,4 +11,5 @@ export default {
     pathTs: "src/migrations",
   },
   metadataProvider: TsMorphMetadataProvider,
+  // debug: true,
 } as Options;
