@@ -17,9 +17,10 @@ export default function Button({
   const sizeClasses = classNames({
     "btn-sm": size == "sm",
   });
+
   return (
     <button
-      className={`btn btn-primary ${sizeClasses} ${className}`}
+      className={classNames("btn btn-primary", sizeClasses, className)}
       {...props}
     >
       {children || label}

@@ -10,6 +10,9 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { createDepartment } from "@/adapters/client/department";
 import Toast from "../Toast";
+import { motion } from "framer-motion";
+import UserCard from "./SelectedUserList";
+import SelectedUserList from "./SelectedUserList";
 
 interface IDepartmentForm {
   name: string;
@@ -72,30 +75,16 @@ export default function DepartmentForm() {
         />
       )}
       <div className="mb-2">
-        <label className="block mb-2">Name</label>
-        <Input placeholder="Finance" className="w-96" {...register("name")} />
+        <Input
+          placeholder="Finance"
+          label="Name"
+          className="w-96"
+          {...register("name")}
+        />
       </div>
       <UserSelect onSelectUser={onSelectUser} />
-
       {users.length > 0 && (
-        <div className="mt-4 grid grid-cols-3 gap-x-2">
-          {users.map((user) => (
-            <div
-              key={user.id}
-              className="relative px-5 py-6 rounded border border-gray-300 overflow-hidden"
-            >
-              <FontAwesomeIcon
-                className="absolute top-3 right-5 cursor-pointer"
-                icon={faXmark}
-                onClick={() => onRemoveUser(user)}
-              />
-              <div className="font-medium">
-                {user.firstName} {user.lastName}
-              </div>
-              <div>{user.email}</div>
-            </div>
-          ))}
-        </div>
+        <SelectedUserList users={users} onRemoveUser={onRemoveUser} />
       )}
       <Button className="mt-4" disabled={isSubmitting}>
         Create

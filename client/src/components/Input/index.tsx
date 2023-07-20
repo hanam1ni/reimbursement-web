@@ -1,22 +1,28 @@
 import classNames from "classnames";
 import React from "react";
 
-const Input = React.forwardRef<
-  HTMLInputElement,
-  React.HTMLProps<HTMLInputElement>
->(({ type, className, ...props }, ref) => {
-  return (
-    <input
-      ref={ref}
-      type={type || "text"}
-      className={classNames(
-        "input h-10 border border-gray-300 rounded-sm bg-gray-100 autofill:bg-transparent focus:outline-primary",
-        className
-      )}
-      {...props}
-    />
-  );
-});
+interface InputProps extends React.HTMLProps<HTMLInputElement> {
+  label?: string;
+}
+
+const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  ({ type, className, label, ...props }, ref) => {
+    return (
+      <>
+        {label && <label className="label">{label}</label>}
+        <input
+          ref={ref}
+          type={type || "text"}
+          className={classNames(
+            "input h-10 border border-gray-300 rounded-md bg-white shadow-sm text-sm font-medium focus:outline-primary",
+            className
+          )}
+          {...props}
+        />
+      </>
+    );
+  }
+);
 
 Input.displayName = "Input";
 

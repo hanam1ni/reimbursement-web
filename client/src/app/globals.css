@@ -9,3 +9,7 @@ body {
 h1 {
   @apply text-2xl font-semibold;
 }
+
+.label {
+  @apply block pl-0 mb-1 text-sm font-medium;
+}

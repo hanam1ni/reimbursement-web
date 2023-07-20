@@ -7,7 +7,7 @@ export default function NewDepartmentPage() {
       <div className="mb-4">
         <BackNavigation href="/departments" />
       </div>
-      <h1 className="mb-8">New Department</h1>
+      <h1 className="mb-6">New Department</h1>
       <DepartmentForm />
     </div>
   );

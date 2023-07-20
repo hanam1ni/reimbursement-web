@@ -57,7 +57,7 @@ export default function UserSelect({
 
   return (
     <div className="relative" ref={userFormGroupRef}>
-      <label className="block mb-2">Users</label>
+      <label className="label">Users</label>
       <Input
         placeholder="Search Users by Email"
         className="w-96"
