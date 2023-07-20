@@ -39,7 +39,7 @@ const NAVIGATION_ITEMS = [
     key: "departments",
   },
   {
-    href: "/requests",
+    href: "/requests/my-requests",
     icon: faEnvelope,
     label: "Requests",
     key: "requests",

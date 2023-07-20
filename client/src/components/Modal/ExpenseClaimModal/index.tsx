@@ -27,7 +27,7 @@ export default function ExpenseClaimModal() {
     try {
       await createExpenseClaim(data);
 
-      window.location.href = "/requests";
+      window.location.href = "/requests/my-requests";
     } catch (error) {
       setIsSubmitting(false);
 
