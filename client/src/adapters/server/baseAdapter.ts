@@ -1,3 +1,5 @@
+import "server-only";
+
 import { PageInfo } from "@/helpers/paginationHelper";
 import axios, { AxiosRequestConfig } from "axios";
 import { cookies } from "next/headers";

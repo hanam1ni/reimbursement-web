@@ -1,3 +1,5 @@
+import "server-only";
+
 import { parsePageNumber } from "@/helpers/paginationHelper";
 import * as baseAdapter from "./baseAdapter";
 
