@@ -1,4 +1,4 @@
 interface ServerPageProps {
-  params: { slug: string };
+  params: { [key: string]: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }

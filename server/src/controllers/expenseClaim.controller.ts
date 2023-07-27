@@ -6,7 +6,10 @@ import {
   buildPaginationResponse,
   parsePageNumber,
 } from "@/helpers/paginationHelper";
-import { Request, Response } from "express";
+import * as ParamsHelper from "@/helpers/paramsHelper";
+import { RecordNotFoundError } from "@/lib/errors";
+import { authorizeExpenseClaim } from "@/middlewares/authorization";
+import { NextFunction, Request, Response } from "express";
 
 export const listMyExpenseClaim = async (req: Request, res: Response) => {
   const {
@@ -15,13 +18,9 @@ export const listMyExpenseClaim = async (req: Request, res: Response) => {
   } = req;
   const pageNumber = parsePageNumber(page);
 
-  if (!user?.id) {
-    return res.status(400).json();
-  }
-
   const { expenseClaims, count } = await entityManager
     .getRepository(ExpenseClaim)
-    .listExpenseClaim(pageNumber, { userId: user.id });
+    .listExpenseClaim(pageNumber, { userId: user!.id });
 
   const body = buildPaginationResponse(expenseClaims, pageNumber, count);
 
@@ -52,6 +51,30 @@ export const listDepartmentExpenseClaim = async (
   const body = buildPaginationResponse(expenseClaims, pageNumber, count);
 
   res.json(body);
+};
+
+export const getExpenseClaim = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const expenseClaimId = ParamsHelper.parseId(req.params.id);
+
+    const expenseClaim = await entityManager
+      .getRepository(ExpenseClaim)
+      .getExpenseClaim(expenseClaimId);
+
+    if (expenseClaim == null) {
+      throw new RecordNotFoundError();
+    }
+
+    authorizeExpenseClaim(req.user!, expenseClaim);
+
+    return res.json(expenseClaim);
+  } catch (error) {
+    next(error);
+  }
 };
 
 export const createExpenseClaim = async (req: Request, res: Response) => {

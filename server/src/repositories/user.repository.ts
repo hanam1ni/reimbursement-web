@@ -55,6 +55,7 @@ export default class UserRepository extends EntityRepository<User> {
     const offset = (page - 1) * RECORD_PER_PAGE;
 
     const queryOpts: { email?: RegExp } = {};
+
     if (options.keyword) {
       queryOpts.email = new RegExp(options.keyword);
     }

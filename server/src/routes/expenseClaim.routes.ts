@@ -12,6 +12,7 @@ router.get(
   "/department-expense-claims",
   expenseClaimController.listDepartmentExpenseClaim
 );
+router.get("/expense-claims/:id", expenseClaimController.getExpenseClaim);
 router.post("/expense-claims", expenseClaimController.createExpenseClaim);
 
 export default router;

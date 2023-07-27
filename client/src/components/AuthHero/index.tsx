@@ -28,7 +28,7 @@ export default function AuthHero() {
         height={400}
         alt="Hero image"
       ></Image>
-      <div className="text-gray-500">
+      <div className="text-gray-500 text-sm font-medium">
         <span>{authAction.hint}&nbsp;</span>
         <Link className="underline text-primary" href={authAction.link}>
           {authAction.label}

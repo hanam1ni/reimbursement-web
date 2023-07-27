@@ -45,12 +45,11 @@ export const createDummyUser = async (req: Request, res: Response) => {
 };
 
 const validateOption = (req: Request) => {
-  const { keyword } = req.query;
-  const parsedKeyword = String(keyword);
+  const keyword = req.query.keyword as string;
   const options: { keyword?: string } = {};
 
-  if (parsedKeyword.length >= 3) {
-    options.keyword = parsedKeyword;
+  if (keyword && keyword.length >= 3) {
+    options.keyword = keyword;
   }
 
   return options;

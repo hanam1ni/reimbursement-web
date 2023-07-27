@@ -1,4 +1,3 @@
-import { RequestContext } from "@mikro-orm/core";
 import genSessionStore from "connect-pg-simple";
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -10,6 +9,7 @@ import initializeAuth from "./middlewares/authentication";
 import { filterEmptyString } from "./middlewares/requestBody";
 import initializeRouter from "./routes";
 import { initializeQueue } from "./workers";
+import { errorHandler, errorLogger } from "./middlewares/errorHandler";
 
 const initializeServer = async () => {
   const PostgresqlStore = genSessionStore(session);
@@ -37,8 +37,7 @@ const initializeServer = async () => {
     })
   );
 
-  await initializeDB();
-  app.use((req, res, next) => RequestContext.create(entityManager, next));
+  await initializeDB(app);
 
   initializeAuth(app);
   initializeQueue();
@@ -50,6 +49,9 @@ const initializeServer = async () => {
   app.use(cookieParser());
 
   initializeRouter(app);
+
+  app.use(errorHandler);
+  app.use(errorLogger);
 
   app.listen(3001, () => {
     console.log("Start server at port 3001.");

@@ -1,3 +1,3 @@
 export default async function Home() {
-  return <div>Main Content</div>;
+  return <div className="font-bold">Work in progress</div>;
 }

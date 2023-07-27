@@ -10,6 +10,7 @@ import {
 import { default as dayjs } from "dayjs";
 import React, { useMemo } from "react";
 import style from "../Table.module.scss";
+import { useRouter } from "next/navigation";
 
 const columnHelper = createColumnHelper<ExpenseClaim>();
 
@@ -66,6 +67,8 @@ export default function ExpenseClaimTable({
   data: any;
   hideRequestedBy?: boolean;
 }) {
+  const router = useRouter();
+
   const tableColumns = useMemo(() => {
     if (hideRequestedBy) {
       return columns.filter(({ id }) => id != "requestedBy");
@@ -98,7 +101,11 @@ export default function ExpenseClaimTable({
       </thead>
       <tbody>
         {table.getRowModel().rows.map((row) => (
-          <tr key={row.id} className={`${style.tr}`}>
+          <tr
+            key={row.id}
+            className={`${style.tr} cursor-pointer`}
+            onClick={() => router.push(`/requests/${row.original.id}`)}
+          >
             {row.getVisibleCells().map((cell) => (
               <td key={cell.id} className={`${style.td}`}>
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}

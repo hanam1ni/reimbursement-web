@@ -13,6 +13,10 @@ export interface ExpenseClaim {
   };
 }
 
+export const getExpenseClaim = (id: string | number) => {
+  return baseAdapter.get<ExpenseClaim>(`/expense-claims/${id}`);
+};
+
 export const listMyExpenseClaim = (page: any) => {
   const pageNumber = parsePageNumber(page);
 

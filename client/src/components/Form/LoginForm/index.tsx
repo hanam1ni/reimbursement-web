@@ -4,7 +4,7 @@ import Input from "@/components/Input";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { login } from "@/adapters/client/auth";
 import { useState } from "react";
-import Toast from "../Toast";
+import Toast from "@/components/Toast";
 import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 
