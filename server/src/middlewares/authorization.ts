@@ -16,20 +16,3 @@ export const authorizeUser = (role: string) => {
     return res.status(401).json({ error: "Unauthorized" });
   };
 };
-
-export const authorizeExpenseClaim = (
-  user: User,
-  expenseClaim: ExpenseClaim
-) => {
-  if (user.id == expenseClaim.createdBy?.id) {
-    return true;
-  }
-
-  for (const role of user.roles) {
-    if (["admin", "finance", "account"].includes(role.name)) {
-      return true;
-    }
-  }
-
-  throw new UnauthorizedError();
-};

@@ -1,8 +1,8 @@
 "use client";
 
 import { ExpenseClaim } from "@/adapters/types";
+import ExpenseClaimAction from "../ExpenseClaimAction";
 import BackNavigation from "@/components/BackNavigation";
-import ExpenseClaimDropdown from "@/components/Dropdown/ExpenseClaimDropdown";
 import dayjs from "dayjs";
 
 interface ExpenseClaimSummaryProps {
@@ -16,7 +16,7 @@ export default function ExpenseClaimSummary({
     <>
       <div className="flex justify-between mb-8">
         <BackNavigation href={"/requests/my-requests"} />
-        <ExpenseClaimDropdown expenseClaim={expenseClaim} />
+        <ExpenseClaimAction expenseClaim={expenseClaim} />
       </div>
       <div className="flex justify-between items-center pb-4 mb-8 border-b border-gray-200">
         <div>

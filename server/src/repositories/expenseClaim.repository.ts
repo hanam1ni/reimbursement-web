@@ -63,7 +63,7 @@ export default class ExpenseClaimRepository extends EntityRepository<ExpenseClai
 
     const [expenseClaims, count] = await this.findAndCount(
       {
-        status: ExpenseClaimStatus.created,
+        status: ExpenseClaimStatus.CREATED,
         createdBy: { departments: departmentIds },
       },
       {
@@ -75,5 +75,15 @@ export default class ExpenseClaimRepository extends EntityRepository<ExpenseClai
     );
 
     return { expenseClaims, count };
+  }
+
+  async approveExpenseClaim(expenseClaim: ExpenseClaim, currentUser: User) {
+    expenseClaim.status = ExpenseClaimStatus.APROVED;
+    expenseClaim.approvedAt = new Date();
+    expenseClaim.approvedBy = currentUser;
+
+    await entityManager.flush();
+
+    return expenseClaim;
   }
 }

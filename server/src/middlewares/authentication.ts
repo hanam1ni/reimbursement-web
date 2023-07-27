@@ -20,7 +20,7 @@ const initializeAuth = (app: Express) => {
       .getRepository(User)
       .findOne(
         { email: user.email },
-        { populate: ["roles", "userDepartments"] }
+        { populate: ["roles", "userDepartments.department"] }
       );
 
     if (!userFromDB) {

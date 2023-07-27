@@ -8,7 +8,10 @@ import {
 } from "@/helpers/paginationHelper";
 import * as ParamsHelper from "@/helpers/paramsHelper";
 import { RecordNotFoundError } from "@/lib/errors";
-import { authorizeExpenseClaim } from "@/middlewares/authorization";
+import {
+  authorizeApproveExpenseClaim,
+  authorizeGetExpenseClaim,
+} from "@/lib/policies/expenseClaimPolicy";
 import { NextFunction, Request, Response } from "express";
 
 export const listMyExpenseClaim = async (req: Request, res: Response) => {
@@ -67,11 +70,11 @@ export const getExpenseClaim = async (
         populate: ["createdBy", "approvedBy"],
       });
 
-    if (expenseClaim == null) {
+    if (expenseClaim === null) {
       throw new RecordNotFoundError();
     }
 
-    authorizeExpenseClaim(req.user!, expenseClaim);
+    authorizeGetExpenseClaim(req.user as User, expenseClaim);
 
     return res.json(expenseClaim);
   } catch (error) {
@@ -89,4 +92,34 @@ export const createExpenseClaim = async (req: Request, res: Response) => {
   }
 
   res.json(expenseClaim);
+};
+
+export const approveExpenseClaim = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const expenseClaimId = ParamsHelper.parseId(req.params.id);
+
+    const expenseClaim = await entityManager
+      .getRepository(ExpenseClaim)
+      .getExpenseClaim(expenseClaimId, {
+        populate: ["createdBy.departments"],
+      });
+
+    if (expenseClaim === null) {
+      throw new RecordNotFoundError();
+    }
+
+    authorizeApproveExpenseClaim(req.user as User, expenseClaim);
+
+    await entityManager
+      .getRepository(ExpenseClaim)
+      .approveExpenseClaim(expenseClaim, req.user as User);
+
+    res.json(expenseClaim);
+  } catch (error) {
+    next(error);
+  }
 };

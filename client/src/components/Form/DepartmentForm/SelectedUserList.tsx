@@ -1,9 +1,8 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { User } from "@/adapters/client/user";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AnimatePresence, motion, useAnimate } from "framer-motion";
-import { flushSync } from "react-dom";
 
 interface SelectedUserListProps {
   users: User[];
@@ -15,7 +14,6 @@ export default function SelectedUserList({
   onRemoveUser,
 }: SelectedUserListProps) {
   const [scope, animate] = useAnimate();
-  const ref = useRef(null);
   const [removedUserId, setRemovedUserId] = useState<number | null>(null);
 
   const handleRemoveUser = (user: User) => {

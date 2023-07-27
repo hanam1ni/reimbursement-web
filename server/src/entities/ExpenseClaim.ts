@@ -16,10 +16,10 @@ export interface ExpenseClaimParams {
 }
 
 export enum ExpenseClaimStatus {
-  created = "created",
-  approved = "approved",
-  rejected = "rejected",
-  completed = "completed",
+  CREATED = "created",
+  APROVED = "approved",
+  REJECTED = "rejected",
+  COMPLETED = "completed",
 }
 
 @Entity({ customRepository: () => ExpenseClaimRepository })
@@ -69,6 +69,6 @@ export default class ExpenseClaim extends BaseEntity {
     this.title = title;
     this.amount = amount;
     this.description = description;
-    this.status = ExpenseClaimStatus.created;
+    this.status = ExpenseClaimStatus.CREATED;
   }
 }

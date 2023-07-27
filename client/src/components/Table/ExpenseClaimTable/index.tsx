@@ -1,6 +1,5 @@
 "use client";
 
-import { ExpenseClaim } from "@/adapters/server/expenseClaim";
 import {
   createColumnHelper,
   flexRender,
@@ -11,6 +10,8 @@ import { default as dayjs } from "dayjs";
 import React, { useMemo } from "react";
 import style from "../Table.module.scss";
 import { useRouter } from "next/navigation";
+import { ExpenseClaim } from "@/adapters/types";
+import ExpenseClaimBadge from "@/components/Badge/ExpenseClaimBadge";
 
 const columnHelper = createColumnHelper<ExpenseClaim>();
 
@@ -36,11 +37,7 @@ let columns = [
   columnHelper.accessor("status", {
     id: "status",
     header: () => <th className={`w-1/12 ${style.th}`}>Status</th>,
-    cell: (info) => (
-      <div className="badge badge-primary text-xs font-medium capitalize">
-        {info.getValue()}
-      </div>
-    ),
+    cell: (info) => <ExpenseClaimBadge status={info.getValue()} />,
   }),
   columnHelper.accessor(
     (row) => `${row.createdBy.firstName} ${row.createdBy.lastName}`,

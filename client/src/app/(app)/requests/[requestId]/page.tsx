@@ -1,6 +1,6 @@
 import { getExpenseClaim } from "@/adapters/server/expenseClaim";
+import ExpenseClaimSummary from "./_components/ExpenseClaimSummary";
 import ContainerBlock from "@/components/ContainerBlock";
-import ExpenseClaimSummary from "@/components/ExpenseClaimSummary";
 
 export default async function RequestDetailPage({ params }: ServerPageProps) {
   const requestId = params.requestId;
