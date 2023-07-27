@@ -63,7 +63,9 @@ export const getExpenseClaim = async (
 
     const expenseClaim = await entityManager
       .getRepository(ExpenseClaim)
-      .getExpenseClaim(expenseClaimId);
+      .getExpenseClaim(expenseClaimId, {
+        populate: ["createdBy", "approvedBy"],
+      });
 
     if (expenseClaim == null) {
       throw new RecordNotFoundError();
@@ -78,14 +80,9 @@ export const getExpenseClaim = async (
 };
 
 export const createExpenseClaim = async (req: Request, res: Response) => {
-  const {
-    user,
-    body: { amount },
-  } = req;
-
   const { expenseClaim, error } = await entityManager
     .getRepository(ExpenseClaim)
-    .createExpenseClaim(user as User, amount);
+    .createExpenseClaim(req.user as User, req.body);
 
   if (error) {
     return res.status(400).json(error);

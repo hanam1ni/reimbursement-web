@@ -10,6 +10,14 @@ h1 {
   @apply text-2xl font-semibold;
 }
 
+h2 {
+  @apply text-xl font-semibold;
+}
+
+h3 {
+  @apply text-lg font-semibold;
+}
+
 .label {
   @apply block pl-0 mb-1 text-sm font-medium;
 }

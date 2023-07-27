@@ -10,7 +10,9 @@ import User from "./User";
 import ExpenseClaimRepository from "@/repositories/expenseClaim.repository";
 
 export interface ExpenseClaimParams {
+  title: string;
   amount: number;
+  description?: string;
 }
 
 export enum ExpenseClaimStatus {
@@ -23,6 +25,13 @@ export enum ExpenseClaimStatus {
 @Entity({ customRepository: () => ExpenseClaimRepository })
 export default class ExpenseClaim extends BaseEntity {
   [EntityRepositoryType]?: ExpenseClaimRepository;
+
+  @Property()
+  @IsNotEmpty()
+  title: string;
+
+  @Property()
+  description?: string;
 
   @Property()
   @IsNotEmpty()
@@ -54,10 +63,12 @@ export default class ExpenseClaim extends BaseEntity {
   @ManyToOne()
   completedBy?: User;
 
-  constructor({ amount }: ExpenseClaimParams) {
+  constructor({ title, amount, description }: ExpenseClaimParams) {
     super();
 
+    this.title = title;
     this.amount = amount;
+    this.description = description;
     this.status = ExpenseClaimStatus.created;
   }
 }

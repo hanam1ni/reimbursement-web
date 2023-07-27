@@ -8,6 +8,10 @@ export interface User {
   roles: { name: string }[];
 }
 
+export const getCurrentUser = () => {
+  return baseAdapter.get<User>("/me");
+};
+
 export const listUsers = (keyword: string) => {
   return baseAdapter.get<baseAdapter.ListApiResponse<User>>("/users", {
     params: { keyword },

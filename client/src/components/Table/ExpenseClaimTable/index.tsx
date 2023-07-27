@@ -19,9 +19,14 @@ let columns = [
     id: "id",
     header: () => <th className={`w-1/12 ${style.th}`}>Id</th>,
   }),
+  columnHelper.accessor("title", {
+    id: "title",
+    header: () => <th className={`w-2/12 ${style.th}`}>Title</th>,
+    cell: (info) => <div className="font-medium">{info.getValue()}</div>,
+  }),
   columnHelper.accessor("amount", {
     id: "amount",
-    header: () => <th className={`w-2/12 ${style.th}`}>Amount</th>,
+    header: () => <th className={`w-1/12 ${style.th}`}>Amount</th>,
     cell: (info) => (
       <div className="font-medium">{`${info
         .getValue()
@@ -30,7 +35,7 @@ let columns = [
   }),
   columnHelper.accessor("status", {
     id: "status",
-    header: () => <th className={`w-2/12 ${style.th}`}>Status</th>,
+    header: () => <th className={`w-1/12 ${style.th}`}>Status</th>,
     cell: (info) => (
       <div className="badge badge-primary text-xs font-medium capitalize">
         {info.getValue()}
@@ -46,14 +51,14 @@ let columns = [
   ),
   columnHelper.accessor("createdAt", {
     id: "createdAt",
-    header: () => <th className={`w-2/12 ${style.th}`}>Requested At</th>,
+    header: () => <th className={`w-1/12 ${style.th}`}>Requested At</th>,
     cell: (info) => (
       <span>{dayjs(info.getValue()).format("DD MMMM YYYY")}</span>
     ),
   }),
   columnHelper.accessor("updatedAt", {
     id: "updatedAt",
-    header: () => <th className={`w-2/12 ${style.th}`}>Last Updated</th>,
+    header: () => <th className={`w-1/12 ${style.th}`}>Last Updated</th>,
     cell: (info) => (
       <span>{dayjs(info.getValue()).format("DD MMMM YYYY")}</span>
     ),

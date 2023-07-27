@@ -1,5 +1,6 @@
 import { listDepartment } from "@/adapters/server/department";
 import Button from "@/components/Button";
+import ContainerBlock from "@/components/ContainerBlock";
 import Pagination from "@/components/Pagination";
 import DepartmentTable from "@/components/Table/DepartmentTable";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
@@ -14,7 +15,7 @@ export default async function DepartmentsPage({
   const departments = await listDepartment(page);
 
   return (
-    <div className="h-full flex flex-col">
+    <ContainerBlock className="h-full flex flex-col">
       <div className="mb-8 flex justify-between items-center">
         <h1>Departments</h1>
         <Link href={"/departments/new"}>
@@ -29,6 +30,6 @@ export default async function DepartmentsPage({
         <DepartmentTable data={departments.data.data} />
       </div>
       <Pagination searchParams={searchParams} {...departments.data.page} />
-    </div>
+    </ContainerBlock>
   );
 }

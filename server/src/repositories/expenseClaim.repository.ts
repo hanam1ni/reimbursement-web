@@ -1,5 +1,8 @@
 import { entityManager } from "@/db";
-import ExpenseClaim, { ExpenseClaimStatus } from "@/entities/ExpenseClaim";
+import ExpenseClaim, {
+  ExpenseClaimParams,
+  ExpenseClaimStatus,
+} from "@/entities/ExpenseClaim";
 import User from "@/entities/User";
 import { RECORD_PER_PAGE } from "@/helpers/paginationHelper";
 import { queue } from "@/workers";
@@ -19,8 +22,11 @@ export default class ExpenseClaimRepository extends EntityRepository<ExpenseClai
     return expenseClaim;
   }
 
-  async createExpenseClaim(user: User, amount: number) {
-    const expenseClaim = new ExpenseClaim({ amount });
+  async createExpenseClaim(
+    user: User,
+    { amount, title, description }: ExpenseClaimParams
+  ) {
+    const expenseClaim = new ExpenseClaim({ amount, title, description });
     expenseClaim.createdBy = user;
 
     const validationErrors = await validate(expenseClaim);
