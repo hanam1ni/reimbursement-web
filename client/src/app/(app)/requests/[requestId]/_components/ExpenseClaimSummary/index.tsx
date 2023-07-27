@@ -4,6 +4,7 @@ import { ExpenseClaim } from "@/adapters/types";
 import ExpenseClaimAction from "../ExpenseClaimAction";
 import BackNavigation from "@/components/BackNavigation";
 import dayjs from "dayjs";
+import ExpenseClaimBadge from "@/components/Badge/ExpenseClaimBadge";
 
 interface ExpenseClaimSummaryProps {
   expenseClaim: ExpenseClaim;
@@ -37,7 +38,7 @@ export default function ExpenseClaimSummary({
         <div>
           <p className="text-gray-500 text-xs font-medium">Status</p>
           <p className="text-lg font-medium capitalize">
-            {expenseClaim.status}
+            <ExpenseClaimBadge status={expenseClaim.status} />
           </p>
         </div>
         <div>
@@ -47,15 +48,25 @@ export default function ExpenseClaimSummary({
           </p>
         </div>
         <div>
-          <p className="text-gray-500 text-xs font-medium">Approved By</p>
+          <p className="text-gray-500 text-xs font-medium">Reviewed By</p>
 
-          {expenseClaim.approvedBy ? (
-            <p className="text-lg font-medium">{`${expenseClaim.approvedBy.firstName} ${expenseClaim.approvedBy.lastName}`}</p>
+          {expenseClaim.approvedBy || expenseClaim.rejectedBy ? (
+            <p className="text-lg font-medium">{`${
+              expenseClaim.approvedBy?.firstName ||
+              expenseClaim.rejectedBy?.firstName
+            } ${
+              expenseClaim.approvedBy?.lastName ||
+              expenseClaim.rejectedBy?.lastName
+            }`}</p>
           ) : (
-            <p className="text-md leading-7 font-medium">
-              Waiting for approval
-            </p>
+            <p className="text-md leading-7 font-medium">Waiting for review</p>
           )}
+        </div>
+        <div className="col-span-2">
+          <p className="text-gray-500 text-xs font-medium">Description</p>
+          <p className="text-md leading-7 font-medium">
+            {expenseClaim.description}
+          </p>
         </div>
       </div>
     </>

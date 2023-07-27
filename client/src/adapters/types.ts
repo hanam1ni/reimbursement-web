@@ -21,6 +21,10 @@ export interface ExpenseClaim {
     firstName: string;
     lastName: string;
   };
+  rejectedBy?: {
+    firstName: string;
+    lastName: string;
+  };
 }
 
 export enum UserDepartmentRole {

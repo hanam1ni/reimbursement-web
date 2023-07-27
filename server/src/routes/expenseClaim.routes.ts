@@ -17,6 +17,10 @@ router.put(
   "/expense-claims/:id/approve",
   expenseClaimController.approveExpenseClaim
 );
+router.put(
+  "/expense-claims/:id/reject",
+  expenseClaimController.rejectExpenseClaim
+);
 router.post("/expense-claims", expenseClaimController.createExpenseClaim);
 
 export default router;

@@ -123,3 +123,33 @@ export const approveExpenseClaim = async (
     next(error);
   }
 };
+
+export const rejectExpenseClaim = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const expenseClaimId = ParamsHelper.parseId(req.params.id);
+
+    const expenseClaim = await entityManager
+      .getRepository(ExpenseClaim)
+      .getExpenseClaim(expenseClaimId, {
+        populate: ["createdBy.departments"],
+      });
+
+    if (expenseClaim === null) {
+      throw new RecordNotFoundError();
+    }
+
+    authorizeApproveExpenseClaim(req.user as User, expenseClaim);
+
+    await entityManager
+      .getRepository(ExpenseClaim)
+      .rejectExpenseClaim(expenseClaim, req.user as User);
+
+    res.json(expenseClaim);
+  } catch (error) {
+    next(error);
+  }
+};

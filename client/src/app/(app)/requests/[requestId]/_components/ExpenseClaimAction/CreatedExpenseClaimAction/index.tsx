@@ -1,4 +1,7 @@
-import { approveExpenseClaim } from "@/adapters/client/expenseClaim";
+import {
+  approveExpenseClaim,
+  rejectExpenseClaim,
+} from "@/adapters/client/expenseClaim";
 import {
   ExpenseClaim,
   ExpenseClaimStatus,
@@ -44,6 +47,7 @@ export function Dropdown({
       <li
         key="reject"
         className="py-2 pl-3 text-left rounded transition cursor-pointer text-red-600 hover:bg-gray-100"
+        onClick={() => window["reject-expense-claim-modal"].showModal()}
       >
         <FontAwesomeIcon icon={faXmark} className="h-3.5 w-3.5 mr-2" />
         Reject
@@ -53,26 +57,41 @@ export function Dropdown({
 }
 
 export function Modal({ expenseClaim }: { expenseClaim: ExpenseClaim }) {
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isApproving, setIsApproving] = useState(false);
+  const [isRejecting, setIsRejecting] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
   const pathname = usePathname();
 
   const handleApprove = async () => {
-    setIsSubmitting(true);
+    setIsApproving(true);
 
     try {
       await approveExpenseClaim(expenseClaim.id);
 
       window.location.href = pathname;
     } catch (error) {
-      setIsSubmitting(false);
+      setIsApproving(false);
+
+      return setFormError("Something went wrong, Please try again later.");
+    }
+  };
+
+  const handleReject = async () => {
+    setIsRejecting(true);
+
+    try {
+      await rejectExpenseClaim(expenseClaim.id);
+
+      window.location.href = pathname;
+    } catch (error) {
+      setIsRejecting(false);
 
       return setFormError("Something went wrong, Please try again later.");
     }
   };
 
   return (
-    <BaseModal id="approve-expense-claim-modal">
+    <>
       {formError && (
         <Toast
           body={formError}
@@ -80,27 +99,54 @@ export function Modal({ expenseClaim }: { expenseClaim: ExpenseClaim }) {
           onDismiss={() => setFormError(null)}
         />
       )}
-      <h3 className="mb-2">Confirm Approval Request?</h3>
-      <p>
-        You are about to approve request:{" "}
-        <span className="font-semibold">{expenseClaim.title}</span>
-      </p>
-      <div className="flex justify-end mt-4">
-        <Button
-          onClick={handleApprove}
-          className="mr-2"
-          disabled={isSubmitting}
-        >
-          Confirm
-        </Button>
-        <Button
-          onClick={() => window["approve-expense-claim-modal"].close()}
-          variant="ghost"
-          disabled={isSubmitting}
-        >
-          Cancel
-        </Button>
-      </div>
-    </BaseModal>
+      <BaseModal id="approve-expense-claim-modal">
+        <h3 className="mb-2">Confirm Approval Request?</h3>
+        <p>
+          You are about to approve request:{" "}
+          <span className="font-semibold">{expenseClaim.title}</span>
+        </p>
+        <div className="flex justify-end mt-4">
+          <Button
+            variant="success"
+            onClick={handleApprove}
+            className="mr-2"
+            disabled={isApproving}
+          >
+            Approve
+          </Button>
+          <Button
+            onClick={() => window["approve-expense-claim-modal"].close()}
+            variant="ghost"
+            disabled={isApproving}
+          >
+            Cancel
+          </Button>
+        </div>
+      </BaseModal>
+      <BaseModal id="reject-expense-claim-modal">
+        <h3 className="mb-2">Confirm Reject Request?</h3>
+        <p>
+          You are about to reject request:{" "}
+          <span className="font-semibold">{expenseClaim.title}</span>
+        </p>
+        <div className="flex justify-end mt-4">
+          <Button
+            variant="error"
+            onClick={handleReject}
+            className="mr-2"
+            disabled={isRejecting}
+          >
+            Reject
+          </Button>
+          <Button
+            onClick={() => window["reject-expense-claim-modal"].close()}
+            variant="ghost"
+            disabled={isRejecting}
+          >
+            Cancel
+          </Button>
+        </div>
+      </BaseModal>
+    </>
   );
 }

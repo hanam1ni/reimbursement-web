@@ -3,7 +3,7 @@ import React from "react";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   label?: string;
-  variant?: "primary" | "ghost";
+  variant?: "primary" | "ghost" | "success" | "error";
   outline?: boolean;
   children?: React.ReactNode;
   size?: "xs" | "sm";
@@ -26,6 +26,8 @@ export default function Button({
   const variantClasses = classNames({
     "btn-primary": variant == "primary" || variant == undefined,
     "btn-ghost": variant == "ghost",
+    "btn-success": variant == "success",
+    "btn-error": variant == "error",
   });
 
   const outlineClasses = classNames({

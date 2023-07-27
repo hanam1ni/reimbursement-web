@@ -86,4 +86,14 @@ export default class ExpenseClaimRepository extends EntityRepository<ExpenseClai
 
     return expenseClaim;
   }
+
+  async rejectExpenseClaim(expenseClaim: ExpenseClaim, currentUser: User) {
+    expenseClaim.status = ExpenseClaimStatus.REJECTED;
+    expenseClaim.rejectedAt = new Date();
+    expenseClaim.rejectedBy = currentUser;
+
+    await entityManager.flush();
+
+    return expenseClaim;
+  }
 }

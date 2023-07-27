@@ -9,13 +9,13 @@ interface BadgeProps {
 export default function Badge({ children, variant, className }: BadgeProps) {
   const variantClass = classNames({
     "badge-primary": variant === "primary" || variant === undefined,
-    "badge-info text-white": variant === "info",
+    "badge-info": variant === "info",
     "badge-success": variant === "success",
     "badge-error": variant === "error",
   });
 
   return (
-    <div className={classNames("badge", variantClass, className)}>
+    <div className={classNames("badge text-white", variantClass, className)}>
       {children}
     </div>
   );
