@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import passport from "passport";
 
-import { entityManager } from "@/db";
+import { entityManager } from "@/lib/db";
 import User from "@/entities/User";
 import { buildErrorResponse } from "@/helpers/errorHelper";
 

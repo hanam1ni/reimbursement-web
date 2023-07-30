@@ -1,6 +1,6 @@
 import BackNavigation from "@/components/BackNavigation";
 import ContainerBlock from "@/components/ContainerBlock";
-import DepartmentForm from "@/components/Form/DepartmentForm";
+import DepartmentForm from "@/components/form/DepartmentForm";
 
 export default function NewDepartmentPage() {
   return (
@@ -8,7 +8,7 @@ export default function NewDepartmentPage() {
       <div className="mb-4">
         <BackNavigation href="/departments" />
       </div>
-      <h1 className="mb-6">New Department</h1>
+      <h1 className="h1 mb-6">New Department</h1>
       <DepartmentForm />
     </ContainerBlock>
   );

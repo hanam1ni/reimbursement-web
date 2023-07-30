@@ -1,7 +1,9 @@
-import { entityManager } from "@/db";
+import { entityManager } from "@/lib/db";
 import ExpenseClaim from "@/entities/ExpenseClaim";
 import { sendEmail } from "@/services/mailer/baseMailer";
 import { Job } from "bullmq";
+import ExpenseClaimAttachment from "@/entities/ExpenseClaimAttachment";
+import { uploadExpenseClaimAttachments } from "@/services/s3/attachment";
 
 export const processCreatedExpenseClaim = async (job: Job) => {
   const expenseClaimId = job.data.expenseClaimId as number;
@@ -17,7 +19,7 @@ export const processCreatedExpenseClaim = async (job: Job) => {
 
   const email = {
     subject: "New Reimbursement Request",
-    body: `There is reimbursement and manager of these department will be notified: ${departmentIds.join(
+    body: `There is a new reimbursement request and manager of these department will be notified: ${departmentIds.join(
       ", "
     )}`,
   };
@@ -26,5 +28,16 @@ export const processCreatedExpenseClaim = async (job: Job) => {
     await sendEmail(email);
   } else {
     console.log(`[Info]: Sending Email - ${email}`);
+  }
+};
+
+export const processExpenseClaimAttachment = async (job: Job) => {
+  const expenseClaimId = job.data.expenseClaimId as number;
+  const { attachments } = await entityManager
+    .getRepository(ExpenseClaimAttachment)
+    .listAttachment({ expenseClaimId, processed: false });
+
+  if (attachments.length > 0) {
+    await uploadExpenseClaimAttachments(attachments);
   }
 };

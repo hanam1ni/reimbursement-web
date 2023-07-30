@@ -1,7 +1,7 @@
-import { Express } from "express";
+import mikroORMConfig from "@/mikro-orm.config";
 import { EntityManager, MikroORM, RequestContext } from "@mikro-orm/core";
 import type { PostgreSqlDriver } from "@mikro-orm/postgresql";
-import mikroORMConfig from "@/mikro-orm.config";
+import { Express } from "express";
 
 export let orm: MikroORM;
 export let entityManager: EntityManager;

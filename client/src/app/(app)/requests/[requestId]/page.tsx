@@ -14,12 +14,12 @@ export default async function RequestDetailPage({ params }: ServerPageProps) {
           <ExpenseClaimSummary expenseClaim={expenseClaim.data} />
         </ContainerBlock>
         <ContainerBlock>
-          <h3>Attachment</h3>
+          <h3 className="h3">Attachment</h3>
         </ContainerBlock>
       </div>
       <div className="basis-96">
         <ContainerBlock>
-          <h3>Activity Log</h3>
+          <h3 className="h3">Activity Log</h3>
         </ContainerBlock>
       </div>
     </div>

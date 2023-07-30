@@ -6,18 +6,18 @@ body {
   @apply bg-slate-200 text-slate-950;
 }
 
-h1 {
+.h1 {
   @apply text-2xl font-semibold;
 }
 
-h2 {
+.h2 {
   @apply text-xl font-semibold;
 }
 
-h3 {
+.h3 {
   @apply text-lg font-semibold;
 }
 
 .label {
-  @apply block pl-0 mb-1 text-sm font-medium;
+  @apply block pl-0 py-0 mb-1 text-sm font-medium;
 }

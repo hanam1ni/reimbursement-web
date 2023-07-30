@@ -1,11 +1,10 @@
-import { entityManager } from "@/db";
 import Department from "@/entities/Department";
 import UserDepartment from "@/entities/UserDepartment";
 import {
   buildPaginationResponse,
   parsePageNumber,
 } from "@/helpers/paginationHelper";
-
+import { entityManager } from "@/lib/db";
 import { Request, Response } from "express";
 
 export const createDepartment = async (req: Request, res: Response) => {

@@ -8,7 +8,7 @@ interface TextAreaProps extends React.HTMLProps<HTMLTextAreaElement> {
 const Textarea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
   ({ className, label, ...props }, ref) => {
     return (
-      <>
+      <div>
         {label && <label className="label">{label}</label>}
         <textarea
           ref={ref}
@@ -18,7 +18,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
           )}
           {...props}
         />
-      </>
+      </div>
     );
   }
 );

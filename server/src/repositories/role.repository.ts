@@ -1,4 +1,4 @@
-import { entityManager } from "@/db";
+import { entityManager } from "@/lib/db";
 import Role, { RoleParams } from "@/entities/Role";
 import { buildIsNotUniqueError } from "@/helpers/errorHelper";
 import { UniqueConstraintViolationException } from "@mikro-orm/core";

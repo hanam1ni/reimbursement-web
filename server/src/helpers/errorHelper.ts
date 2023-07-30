@@ -1,7 +1,6 @@
 export const buildErrorResponse = (
   errors: { property: string; constraints: object }[]
 ) => {
-  console.log(errors);
   const formattedError = errors.map(({ property, constraints }) => {
     return { property, constraints: Object.keys(constraints || {}) };
   });

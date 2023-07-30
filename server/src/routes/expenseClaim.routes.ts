@@ -1,5 +1,6 @@
-import { authenticateUser } from "@/middlewares/authentication";
 import * as expenseClaimController from "@/controllers/expenseClaim.controller";
+import { authenticateUser } from "@/middlewares/authentication";
+import { fileUpload } from "@/middlewares/fileUpload";
 import { Router } from "express";
 
 const router = Router();
@@ -21,6 +22,11 @@ router.put(
   "/expense-claims/:id/reject",
   expenseClaimController.rejectExpenseClaim
 );
-router.post("/expense-claims", expenseClaimController.createExpenseClaim);
+
+router.post(
+  "/expense-claims",
+  fileUpload("attachment[]", 3),
+  expenseClaimController.createExpenseClaim
+);
 
 export default router;

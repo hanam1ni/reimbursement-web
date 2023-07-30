@@ -1,4 +1,4 @@
-import { entityManager } from "@/db";
+import { entityManager } from "@/lib/db";
 import Department from "@/entities/Department";
 
 import { Request, Response } from "express";

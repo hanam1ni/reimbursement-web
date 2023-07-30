@@ -10,7 +10,7 @@ export default async function UsersPage({ searchParams }: ServerPageProps) {
 
   return (
     <ContainerBlock className="h-full flex flex-col">
-      <h1 className="mb-8">Users</h1>
+      <h1 className="h1 mb-8">Users</h1>
       <div className="mb-8 flex-1">
         <UserTable data={users.data.data} />
       </div>

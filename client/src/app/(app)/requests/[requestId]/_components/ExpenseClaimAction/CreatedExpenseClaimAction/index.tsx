@@ -100,7 +100,7 @@ export function Modal({ expenseClaim }: { expenseClaim: ExpenseClaim }) {
         />
       )}
       <BaseModal id="approve-expense-claim-modal">
-        <h3 className="mb-2">Confirm Approval Request?</h3>
+        <h3 className="h3 mb-2">Confirm Approval Request?</h3>
         <p>
           You are about to approve request:{" "}
           <span className="font-semibold">{expenseClaim.title}</span>
@@ -124,7 +124,7 @@ export function Modal({ expenseClaim }: { expenseClaim: ExpenseClaim }) {
         </div>
       </BaseModal>
       <BaseModal id="reject-expense-claim-modal">
-        <h3 className="mb-2">Confirm Reject Request?</h3>
+        <h3 className="h3 mb-2">Confirm Reject Request?</h3>
         <p>
           You are about to reject request:{" "}
           <span className="font-semibold">{expenseClaim.title}</span>

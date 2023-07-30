@@ -3,7 +3,7 @@ import { Express, NextFunction, Request, Response } from "express";
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 
-import { entityManager } from "@/db";
+import { entityManager } from "@/lib/db";
 import User from "@/entities/User";
 
 const initializeAuth = (app: Express) => {

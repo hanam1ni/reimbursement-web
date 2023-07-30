@@ -18,6 +18,9 @@ export const get = <ResponseType>(
 export const post = (url: string, body: object | string) =>
   instance.post(url, body, { withCredentials: true });
 
+export const postForm = (url: string, body: object | string) =>
+  instance.postForm(url, body, { withCredentials: true });
+
 export const put = (url: string, body: object | string) =>
   instance.put(url, body, { withCredentials: true });
 

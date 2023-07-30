@@ -1,4 +1,4 @@
-import { entityManager } from "@/db";
+import { entityManager } from "@/lib/db";
 import Role from "@/entities/Role";
 import User, { UserParams } from "@/entities/User";
 import { buildIsNotUniqueError } from "@/helpers/errorHelper";

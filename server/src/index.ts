@@ -4,12 +4,13 @@ import cors from "cors";
 import express from "express";
 import session from "express-session";
 import logger from "morgan";
-import { entityManager, initializeDB } from "./db";
+import { initializeDB } from "./lib/db";
 import initializeAuth from "./middlewares/authentication";
 import { filterEmptyString } from "./middlewares/requestBody";
 import initializeRouter from "./routes";
 import { initializeQueue } from "./workers";
 import { errorHandler, errorLogger } from "./middlewares/errorHandler";
+import "dotenv/config";
 
 const initializeServer = async () => {
   const PostgresqlStore = genSessionStore(session);

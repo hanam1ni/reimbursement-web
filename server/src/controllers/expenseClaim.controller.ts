@@ -1,4 +1,4 @@
-import { entityManager } from "@/db";
+import { entityManager } from "@/lib/db";
 import ExpenseClaim from "@/entities/ExpenseClaim";
 import User from "@/entities/User";
 import { UserDepartmentRole } from "@/entities/UserDepartment";
@@ -13,6 +13,7 @@ import {
   authorizeGetExpenseClaim,
 } from "@/lib/policies/expenseClaimPolicy";
 import { NextFunction, Request, Response } from "express";
+import * as ExpenseClaimService from "@/services/expenseClaimService";
 
 export const listMyExpenseClaim = async (req: Request, res: Response) => {
   const {
@@ -82,16 +83,22 @@ export const getExpenseClaim = async (
   }
 };
 
-export const createExpenseClaim = async (req: Request, res: Response) => {
-  const { expenseClaim, error } = await entityManager
-    .getRepository(ExpenseClaim)
-    .createExpenseClaim(req.user as User, req.body);
+export const createExpenseClaim = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const expenseClaim = await ExpenseClaimService.createExpenseClaim(
+      req.user as User,
+      req.body,
+      req.files as Express.Multer.File[]
+    );
 
-  if (error) {
-    return res.status(400).json(error);
+    res.json(expenseClaim);
+  } catch (error) {
+    next(error);
   }
-
-  res.json(expenseClaim);
 };
 
 export const approveExpenseClaim = async (

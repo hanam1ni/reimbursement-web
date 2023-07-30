@@ -1,4 +1,4 @@
-import { entityManager } from "@/db";
+import { entityManager } from "@/lib/db";
 import ExpenseClaim, {
   ExpenseClaimParams,
   ExpenseClaimStatus,
@@ -26,7 +26,11 @@ export default class ExpenseClaimRepository extends EntityRepository<ExpenseClai
     user: User,
     { amount, title, description }: ExpenseClaimParams
   ) {
-    const expenseClaim = new ExpenseClaim({ amount, title, description });
+    const expenseClaim = new ExpenseClaim({
+      amount: Number(amount),
+      title,
+      description,
+    });
     expenseClaim.createdBy = user;
 
     const validationErrors = await validate(expenseClaim);
@@ -36,7 +40,6 @@ export default class ExpenseClaimRepository extends EntityRepository<ExpenseClai
     }
 
     await entityManager.persistAndFlush(expenseClaim);
-    queue.add("CreatedExpenseClaim", { expenseClaimId: expenseClaim.id });
 
     return { expenseClaim };
   }

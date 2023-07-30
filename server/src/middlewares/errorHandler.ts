@@ -1,4 +1,4 @@
-import { ExpressError } from "@/lib/errors";
+import { ExpressError, InvalidParamsError } from "@/lib/errors";
 import { NextFunction, Request, Response } from "express";
 
 export const errorHandler = (
@@ -7,6 +7,10 @@ export const errorHandler = (
   res: Response,
   next: NextFunction
 ) => {
+  if (err instanceof InvalidParamsError) {
+    return res.status(err.statusCode).json(err.reason);
+  }
+
   if (err.statusCode) {
     return res.status(err.statusCode).send();
   }

@@ -1,3 +1,7 @@
+import ContainerBlock from "@/components/ContainerBlock";
+
 export default async function Home() {
-  return <div className="font-bold">Work in progress</div>;
+  return (
+    <ContainerBlock className="font-bold">Work in progress</ContainerBlock>
+  );
 }

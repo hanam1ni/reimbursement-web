@@ -1,7 +1,7 @@
 import * as baseAdapter from "./baseAdapter";
 
 export const createExpenseClaim = (data: object) => {
-  return baseAdapter.post("/expense-claims", data);
+  return baseAdapter.postForm("/expense-claims", data);
 };
 
 export const approveExpenseClaim = (id: number) => {

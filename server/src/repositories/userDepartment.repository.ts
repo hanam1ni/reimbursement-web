@@ -1,7 +1,7 @@
 import { EntityRepository } from "@mikro-orm/postgresql";
 
 import UserDepartment, { UserDepartmentRole } from "@/entities/UserDepartment";
-import { entityManager } from "@/db";
+import { entityManager } from "@/lib/db";
 import Department from "@/entities/Department";
 import User from "@/entities/User";
 import { validate } from "class-validator";

@@ -1,4 +1,4 @@
-import { entityManager } from "@/db";
+import { entityManager } from "@/lib/db";
 import User from "@/entities/User";
 import {
   buildPaginationResponse,

@@ -1,8 +1,10 @@
-import { entityManager, orm } from "@/db";
-import User from "@/entities/User";
+import { orm } from "@/lib/db";
 import { UseRequestContext } from "@mikro-orm/core";
 import { Queue, Worker as BullMQWorker, Job } from "bullmq";
-import { processCreatedExpenseClaim } from "./expenseClaimWorker";
+import {
+  processCreatedExpenseClaim,
+  processExpenseClaimAttachment,
+} from "@/workers/expenseClaimWorker";
 
 export let queue: Queue;
 
@@ -30,6 +32,10 @@ class Worker {
   @UseRequestContext(() => orm)
   async processJob(job: Job) {
     switch (job.name) {
+      case "ProcessExpenseClaimAttachment":
+        await processExpenseClaimAttachment(job);
+        break;
+
       case "CreatedExpenseClaim":
         await processCreatedExpenseClaim(job);
         break;

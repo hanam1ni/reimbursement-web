@@ -30,7 +30,7 @@ export default class ExpenseClaim extends BaseEntity {
   @IsNotEmpty()
   title: string;
 
-  @Property()
+  @Property({ columnType: "text" })
   description?: string;
 
   @Property()
