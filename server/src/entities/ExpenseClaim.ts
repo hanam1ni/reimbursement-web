@@ -2,12 +2,14 @@ import {
   Entity,
   EntityRepositoryType,
   ManyToOne,
+  OneToMany,
   Property,
 } from "@mikro-orm/core";
 import { IsNotEmpty, IsPositive } from "class-validator";
 import { BaseEntity } from "./BaseEntity";
 import User from "./User";
 import ExpenseClaimRepository from "@/repositories/expenseClaim.repository";
+import ExpenseClaimAttachment from "@/entities/ExpenseClaimAttachment";
 
 export interface ExpenseClaimParams {
   title: string;
@@ -62,6 +64,12 @@ export default class ExpenseClaim extends BaseEntity {
 
   @ManyToOne()
   completedBy?: User;
+
+  @OneToMany(
+    () => ExpenseClaimAttachment,
+    (attachment) => attachment.expenseClaim
+  )
+  attachments?: ExpenseClaimAttachment;
 
   constructor({ title, amount, description }: ExpenseClaimParams) {
     super();

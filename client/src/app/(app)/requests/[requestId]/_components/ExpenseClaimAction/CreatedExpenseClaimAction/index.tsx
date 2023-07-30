@@ -9,7 +9,7 @@ import {
   UserDepartmentRole,
 } from "@/adapters/types";
 import Button from "@/components/Button";
-import BaseModal from "@/components/Modal/BaseModal";
+import BaseModal from "@/components/modal/BaseModal";
 import Toast from "@/components/Toast";
 import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

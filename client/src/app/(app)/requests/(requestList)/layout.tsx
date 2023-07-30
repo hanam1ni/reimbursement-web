@@ -1,5 +1,5 @@
 import ContainerBlock from "@/components/ContainerBlock";
-import ExpenseClaimModal from "@/components/Modal/ExpenseClaimModal";
+import ExpenseClaimModal from "@/components/modal/ExpenseClaimModal";
 import RequestNavigation from "@/components/RequestNavigation";
 
 export default async function RequestsPageLayout({

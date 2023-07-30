@@ -37,9 +37,9 @@ export default function ExpenseClaimSummary({
         </div>
         <div>
           <p className="text-gray-500 text-xs font-medium">Status</p>
-          <p className="text-lg font-medium capitalize">
+          <div className="text-lg font-medium capitalize">
             <ExpenseClaimBadge status={expenseClaim.status} />
-          </p>
+          </div>
         </div>
         <div>
           <p className="text-gray-500 text-xs font-medium">Requested By</p>

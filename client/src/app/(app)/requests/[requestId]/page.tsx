@@ -1,5 +1,6 @@
 import { getExpenseClaim } from "@/adapters/server/expenseClaim";
 import ExpenseClaimSummary from "./_components/ExpenseClaimSummary";
+import ExpenseClaimAttachment from "./_components/ExpenseClaimAttachment";
 import ContainerBlock from "@/components/ContainerBlock";
 
 export default async function RequestDetailPage({ params }: ServerPageProps) {
@@ -14,7 +15,7 @@ export default async function RequestDetailPage({ params }: ServerPageProps) {
           <ExpenseClaimSummary expenseClaim={expenseClaim.data} />
         </ContainerBlock>
         <ContainerBlock>
-          <h3 className="h3">Attachment</h3>
+          <ExpenseClaimAttachment expenseClaim={expenseClaim.data} />
         </ContainerBlock>
       </div>
       <div className="basis-96">

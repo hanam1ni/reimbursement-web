@@ -68,7 +68,7 @@ export const getExpenseClaim = async (
     const expenseClaim = await entityManager
       .getRepository(ExpenseClaim)
       .getExpenseClaim(expenseClaimId, {
-        populate: ["createdBy", "approvedBy"],
+        populate: ["createdBy", "approvedBy", "attachments"],
       });
 
     if (expenseClaim === null) {

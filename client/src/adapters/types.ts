@@ -25,6 +25,10 @@ export interface ExpenseClaim {
     firstName: string;
     lastName: string;
   };
+  attachments?: {
+    id: number;
+    name: string;
+  }[];
 }
 
 export enum UserDepartmentRole {

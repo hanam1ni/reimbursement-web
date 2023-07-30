@@ -1,7 +1,7 @@
 "use client";
 
 import Button from "@/components/Button";
-import BaseModal from "@/components/Modal/BaseModal";
+import BaseModal from "@/components/modal/BaseModal";
 import ExpenseClaimForm from "@/components/form/ExpenseClaimForm";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
