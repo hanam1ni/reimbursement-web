@@ -11,3 +11,7 @@ export const approveExpenseClaim = (id: number) => {
 export const rejectExpenseClaim = (id: number) => {
   return baseAdapter.put(`/expense-claims/${id}/reject`, {});
 };
+
+export const completeExpenseClaim = (id: number) => {
+  return baseAdapter.put(`/expense-claims/${id}/complete`, {});
+};

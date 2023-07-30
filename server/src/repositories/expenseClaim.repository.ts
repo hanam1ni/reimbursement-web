@@ -116,4 +116,14 @@ export default class ExpenseClaimRepository extends EntityRepository<ExpenseClai
 
     return expenseClaim;
   }
+
+  async completeExpenseClaim(expenseClaim: ExpenseClaim, currentUser: User) {
+    expenseClaim.status = ExpenseClaimStatus.COMPLETED;
+    expenseClaim.completedAt = new Date();
+    expenseClaim.completedBy = currentUser;
+
+    await entityManager.flush();
+
+    return expenseClaim;
+  }
 }

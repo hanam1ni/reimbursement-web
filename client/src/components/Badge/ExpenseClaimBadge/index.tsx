@@ -20,6 +20,9 @@ const badgeVariant = (status: ExpenseClaimStatus) => {
     case ExpenseClaimStatus.APPROVED:
       return "primary";
 
+    case ExpenseClaimStatus.COMPLETED:
+      return "success";
+
     case ExpenseClaimStatus.REJECTED:
       return "error";
 

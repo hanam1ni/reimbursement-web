@@ -6,6 +6,7 @@ import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useEffect, useRef, useState } from "react";
 import * as CreatedExpenseClaimAction from "./CreatedExpenseClaimAction";
+import * as ApprovedExpenseClaimAction from "./ApprovedExpenseClaimAction";
 import classNames from "classnames";
 
 export default function ExpenseClaimAction({
@@ -38,15 +39,20 @@ export default function ExpenseClaimAction({
       </label>
       <ul
         tabIndex={0}
-        className="dropdown-content z-[1] p-1 shadow bg-white border rounded-lg w-36 text-black text-sm"
+        className="dropdown-content z-[1] p-1 shadow bg-white border rounded-lg w-48 text-black text-sm"
         ref={actionList}
       >
         <CreatedExpenseClaimAction.Dropdown
           expenseClaim={expenseClaim}
           user={user}
         />
+        <ApprovedExpenseClaimAction.Dropdown
+          expenseClaim={expenseClaim}
+          user={user}
+        />
       </ul>
       <CreatedExpenseClaimAction.Modal expenseClaim={expenseClaim} />
+      <ApprovedExpenseClaimAction.Modal expenseClaim={expenseClaim} />
     </div>
   );
 }

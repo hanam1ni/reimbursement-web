@@ -162,3 +162,31 @@ export const rejectExpenseClaim = async (
     next(error);
   }
 };
+
+export const completeExpenseClaim = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const expenseClaimId = ParamsHelper.parseId(req.params.id);
+
+    const expenseClaim = await entityManager
+      .getRepository(ExpenseClaim)
+      .getExpenseClaim(expenseClaimId, {
+        populate: ["createdBy.departments"],
+      });
+
+    if (expenseClaim === null) {
+      throw new RecordNotFoundError();
+    }
+
+    await entityManager
+      .getRepository(ExpenseClaim)
+      .completeExpenseClaim(expenseClaim, req.user as User);
+
+    res.json(expenseClaim);
+  } catch (error) {
+    next(error);
+  }
+};
