@@ -19,7 +19,7 @@ export interface ExpenseClaimParams {
 
 export enum ExpenseClaimStatus {
   CREATED = "created",
-  APROVED = "approved",
+  APPROVED = "approved",
   REJECTED = "rejected",
   COMPLETED = "completed",
 }

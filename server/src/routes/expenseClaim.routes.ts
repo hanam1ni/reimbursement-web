@@ -10,8 +10,8 @@ const router = Router();
 router.use(authenticateUser);
 router.get("/my-expense-claims", expenseClaimController.listMyExpenseClaim);
 router.get(
-  "/department-expense-claims",
-  expenseClaimController.listDepartmentExpenseClaim
+  "/review-expense-claims",
+  expenseClaimController.listExpenseClaimForReview
 );
 router.get("/expense-claims/:id", expenseClaimController.getExpenseClaim);
 router.put(

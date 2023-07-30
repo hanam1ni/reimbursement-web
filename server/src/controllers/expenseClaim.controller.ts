@@ -31,7 +31,7 @@ export const listMyExpenseClaim = async (req: Request, res: Response) => {
   res.json(body);
 };
 
-export const listDepartmentExpenseClaim = async (
+export const listExpenseClaimForReview = async (
   req: Request,
   res: Response
 ) => {
@@ -40,17 +40,19 @@ export const listDepartmentExpenseClaim = async (
     query: { page },
   } = req;
   const pageNumber = parsePageNumber(page);
-  const departmentIds = [];
 
-  for (const userDepartment of user?.userDepartments || []) {
-    if (userDepartment.role == UserDepartmentRole.MANAGER) {
-      departmentIds.push(userDepartment.department.id);
-    }
-  }
+  const departmentIds = user?.userDepartments
+    .toArray()
+    .filter(
+      (userDepartment) => userDepartment.role == UserDepartmentRole.MANAGER
+    )
+    .map(({ department: { id } }) => id);
+
+  const role = user?.roles.toArray().map(({ name }) => name);
 
   const { expenseClaims, count } = await entityManager
     .getRepository(ExpenseClaim)
-    .listExpenseClaimForDepartment(pageNumber, departmentIds);
+    .listExpenseClaimForReview(pageNumber, { departmentIds, role });
 
   const body = buildPaginationResponse(expenseClaims, pageNumber, count);
 

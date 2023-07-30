@@ -16,10 +16,10 @@ export const listMyExpenseClaim = (page: any) => {
   );
 };
 
-export const listDepartmentExpenseClaim = (page: any) => {
+export const listReviewExpenseClaim = (page: any) => {
   const pageNumber = parsePageNumber(page);
 
   return baseAdapter.get<baseAdapter.ListApiResponse<ExpenseClaim>>(
-    `/department-expense-claims?page=${pageNumber}`
+    `/review-expense-claims?page=${pageNumber}`
   );
 };

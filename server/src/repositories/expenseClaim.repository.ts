@@ -61,13 +61,30 @@ export default class ExpenseClaimRepository extends EntityRepository<ExpenseClai
     return { expenseClaims, count };
   }
 
-  async listExpenseClaimForDepartment(page: number, departmentIds: number[]) {
+  async listExpenseClaimForReview(
+    page: number,
+    { departmentIds, role }: { departmentIds?: number[]; role?: string[] }
+  ) {
     const offset = (page - 1) * RECORD_PER_PAGE;
+
+    const filterOpts = [];
+
+    if (departmentIds) {
+      filterOpts.push({
+        status: ExpenseClaimStatus.CREATED,
+        createdBy: { departments: departmentIds },
+      });
+    }
+
+    if (role?.includes("finance")) {
+      filterOpts.push({
+        status: ExpenseClaimStatus.APPROVED,
+      });
+    }
 
     const [expenseClaims, count] = await this.findAndCount(
       {
-        status: ExpenseClaimStatus.CREATED,
-        createdBy: { departments: departmentIds },
+        $or: filterOpts,
       },
       {
         orderBy: { id: QueryOrder.DESC },
@@ -81,7 +98,7 @@ export default class ExpenseClaimRepository extends EntityRepository<ExpenseClai
   }
 
   async approveExpenseClaim(expenseClaim: ExpenseClaim, currentUser: User) {
-    expenseClaim.status = ExpenseClaimStatus.APROVED;
+    expenseClaim.status = ExpenseClaimStatus.APPROVED;
     expenseClaim.approvedAt = new Date();
     expenseClaim.approvedBy = currentUser;
 
