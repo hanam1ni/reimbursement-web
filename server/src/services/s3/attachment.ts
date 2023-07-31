@@ -1,9 +1,29 @@
 import ExpenseClaimAttachment from "@/entities/ExpenseClaimAttachment";
 import { entityManager } from "@/lib/db";
 import { client } from "@/services/s3/client";
-import { PutObjectCommand } from "@aws-sdk/client-s3";
+import { GetObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import fs from "fs";
 import { v4 as uuid } from "uuid";
+
+export const generateAttachmentUrl = async (
+  attachment: ExpenseClaimAttachment
+) => {
+  try {
+    const params = {
+      Bucket: process.env.BUCKET_NAME,
+      Key: attachment.url,
+      ResponseContentDisposition: `attachment; filename ="${attachment.name}"`,
+    };
+
+    const url = await getSignedUrl(client, new GetObjectCommand(params), {
+      expiresIn: 60,
+    });
+    return url;
+  } catch (error) {
+    throw error;
+  }
+};
 
 export const uploadExpenseClaimAttachments = async (
   attachments: ExpenseClaimAttachment[]
@@ -31,7 +51,7 @@ export const uploadExpenseClaimAttachments = async (
         attachment.localPath = null;
         await entityManager.flush();
       } catch (error) {
-        console.error(`[ERROR]: ${error}`);
+        throw error;
       }
     })
   );

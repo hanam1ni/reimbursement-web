@@ -28,6 +28,17 @@ export default class ExpenseClaimAttachmentRepository extends EntityRepository<E
     return { attachment };
   }
 
+  async getAttachment(id: number, { populate }: { populate?: any } = {}) {
+    const attachment = await this.findOne(
+      { id },
+      {
+        populate: populate || [],
+      }
+    );
+
+    return attachment;
+  }
+
   async listAttachment(
     options: { processed?: boolean; expenseClaimId?: number } = {}
   ) {

@@ -51,9 +51,9 @@ export function Dropdown({
             <FontAwesomeIcon icon={faXmark} className="h-3.5 w-3.5 mr-2" />
             Reject
           </li>
-          <hr className="-mx-1 my-1" />
         </>
       )}
+      {isManager && isOwner && <hr className="-mx-1 my-1" />}
       {isOwner && (
         <li
           className="py-2 pl-3 text-left rounded transition cursor-pointer hover:bg-gray-100"

@@ -71,7 +71,12 @@ export const getExpenseClaim = async (
     const expenseClaim = await entityManager
       .getRepository(ExpenseClaim)
       .getExpenseClaim(expenseClaimId, {
-        populate: ["createdBy", "approvedBy", "attachments"],
+        populate: [
+          "createdBy.departments",
+          "approvedBy",
+          "rejectedBy",
+          "attachments",
+        ],
       });
 
     if (expenseClaim === null) {
@@ -120,6 +125,8 @@ export const updateExpenseClaim = async (
       throw new RecordNotFoundError();
     }
 
+    authorizeUpdateExpenseClaim(req.user as User, expenseClaim);
+
     await entityManager
       .getRepository(ExpenseClaim)
       .updateExpenseClaim(expenseClaim, req.body);
@@ -148,7 +155,7 @@ export const approveExpenseClaim = async (
       throw new RecordNotFoundError();
     }
 
-    authorizeUpdateExpenseClaim(req.user as User, expenseClaim);
+    authorizeApproveExpenseClaim(req.user as User, expenseClaim);
 
     await entityManager
       .getRepository(ExpenseClaim)

@@ -7,7 +7,14 @@ export const authorizeGetExpenseClaim = (
   user: User,
   expenseClaim: ExpenseClaim
 ) => {
-  if (user.id == expenseClaim.createdBy?.id) {
+  if (user.id === expenseClaim.createdBy?.id) {
+    return true;
+  }
+
+  const managerRoles = managerRoleForExpenseClaim(user, expenseClaim);
+  console.log(user);
+  console.log(expenseClaim);
+  if (managerRoles.length > 0) {
     return true;
   }
 
@@ -35,6 +42,16 @@ export const authorizeApproveExpenseClaim = (
   user: User,
   expenseClaim: ExpenseClaim
 ) => {
+  const managerRoles = managerRoleForExpenseClaim(user, expenseClaim);
+
+  if (managerRoles.length > 0) {
+    return true;
+  }
+
+  throw new UnauthorizedError();
+};
+
+const managerRoleForExpenseClaim = (user: User, expenseClaim: ExpenseClaim) => {
   const requestFromDepartmentIds = expenseClaim.createdBy?.departments
     .toArray()
     .map(({ id }) => id);
@@ -47,9 +64,5 @@ export const authorizeApproveExpenseClaim = (
         role === UserDepartmentRole.MANAGER
     );
 
-  if (managerRoles.length > 0) {
-    return true;
-  }
-
-  throw new UnauthorizedError();
+  return managerRoles;
 };
