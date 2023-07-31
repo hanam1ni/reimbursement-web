@@ -20,6 +20,17 @@ export const authorizeGetExpenseClaim = (
   throw new UnauthorizedError();
 };
 
+export const authorizeUpdateExpenseClaim = (
+  user: User,
+  expenseClaim: ExpenseClaim
+) => {
+  if (user.id == expenseClaim.createdBy?.id) {
+    return true;
+  }
+
+  throw new UnauthorizedError();
+};
+
 export const authorizeApproveExpenseClaim = (
   user: User,
   expenseClaim: ExpenseClaim

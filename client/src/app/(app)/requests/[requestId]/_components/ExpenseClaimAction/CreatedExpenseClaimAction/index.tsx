@@ -9,8 +9,10 @@ import {
   UserDepartmentRole,
 } from "@/adapters/types";
 import Button from "@/components/Button";
+import ExpenseClaimForm from "@/components/form/ExpenseClaimForm";
 import BaseModal from "@/components/modal/BaseModal";
 import Toast from "@/components/Toast";
+import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { usePathname } from "next/navigation";
@@ -29,29 +31,38 @@ export function Dropdown({
 
   const userRoles = user.userDepartments.map(({ role }) => role);
   const isManager = userRoles.includes(UserDepartmentRole.MANAGER);
-
-  if (!isManager) {
-    return null;
-  }
+  const isOwner = user.id === expenseClaim.createdBy.id;
 
   return (
     <>
-      <li
-        key="approve"
-        className="py-2 pl-3 text-left rounded transition cursor-pointer hover:bg-gray-100"
-        onClick={() => window["approve-expense-claim-modal"].showModal()}
-      >
-        <FontAwesomeIcon icon={faCheck} className="h-3.5 w-3.5 mr-2" />
-        Approve
-      </li>
-      <li
-        key="reject"
-        className="py-2 pl-3 text-left rounded transition cursor-pointer text-red-600 hover:bg-gray-100"
-        onClick={() => window["reject-expense-claim-modal"].showModal()}
-      >
-        <FontAwesomeIcon icon={faXmark} className="h-3.5 w-3.5 mr-2" />
-        Reject
-      </li>
+      {isManager && (
+        <>
+          <li
+            className="py-2 pl-3 text-left rounded transition cursor-pointer hover:bg-gray-100"
+            onClick={() => window["approve-expense-claim-modal"].showModal()}
+          >
+            <FontAwesomeIcon icon={faCheck} className="h-3.5 w-3.5 mr-2" />
+            Approve
+          </li>
+          <li
+            className="py-2 pl-3 text-left rounded transition cursor-pointer text-red-600 hover:bg-gray-100"
+            onClick={() => window["reject-expense-claim-modal"].showModal()}
+          >
+            <FontAwesomeIcon icon={faXmark} className="h-3.5 w-3.5 mr-2" />
+            Reject
+          </li>
+          <hr className="-mx-1 my-1" />
+        </>
+      )}
+      {isOwner && (
+        <li
+          className="py-2 pl-3 text-left rounded transition cursor-pointer hover:bg-gray-100"
+          onClick={() => window["edit-expense-claim-modal"].showModal()}
+        >
+          <FontAwesomeIcon icon={faPenToSquare} className="h-3.5 w-3.5 mr-2" />
+          Edit
+        </li>
+      )}
     </>
   );
 }
@@ -146,6 +157,9 @@ export function Modal({ expenseClaim }: { expenseClaim: ExpenseClaim }) {
             Cancel
           </Button>
         </div>
+      </BaseModal>
+      <BaseModal id="edit-expense-claim-modal">
+        <ExpenseClaimForm mode="edit" expenseClaim={expenseClaim} />
       </BaseModal>
     </>
   );

@@ -11,6 +11,7 @@ import { RecordNotFoundError } from "@/lib/errors";
 import {
   authorizeApproveExpenseClaim,
   authorizeGetExpenseClaim,
+  authorizeUpdateExpenseClaim,
 } from "@/lib/policies/expenseClaimPolicy";
 import { NextFunction, Request, Response } from "express";
 import * as ExpenseClaimService from "@/services/expenseClaimService";
@@ -103,6 +104,32 @@ export const createExpenseClaim = async (
   }
 };
 
+export const updateExpenseClaim = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const expenseClaimId = ParamsHelper.parseId(req.params.id);
+
+    const expenseClaim = await entityManager
+      .getRepository(ExpenseClaim)
+      .getExpenseClaim(expenseClaimId);
+
+    if (expenseClaim === null) {
+      throw new RecordNotFoundError();
+    }
+
+    await entityManager
+      .getRepository(ExpenseClaim)
+      .updateExpenseClaim(expenseClaim, req.body);
+
+    res.json(expenseClaim);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const approveExpenseClaim = async (
   req: Request,
   res: Response,
@@ -121,7 +148,7 @@ export const approveExpenseClaim = async (
       throw new RecordNotFoundError();
     }
 
-    authorizeApproveExpenseClaim(req.user as User, expenseClaim);
+    authorizeUpdateExpenseClaim(req.user as User, expenseClaim);
 
     await entityManager
       .getRepository(ExpenseClaim)

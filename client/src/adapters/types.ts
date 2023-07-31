@@ -14,6 +14,7 @@ export interface ExpenseClaim {
   createdAt: string;
   updatedAt: string;
   createdBy: {
+    id: number;
     firstName: string;
     lastName: string;
   };

@@ -1,6 +1,10 @@
 "use client";
 
-import { createExpenseClaim } from "@/adapters/client/expenseClaim";
+import {
+  createExpenseClaim,
+  updateExpenseClaim,
+} from "@/adapters/client/expenseClaim";
+import { ExpenseClaim } from "@/adapters/types";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import Textarea from "@/components/Textarea";
@@ -19,7 +23,17 @@ interface IExpenseClaimForm {
   attachment: File[];
 }
 
-export default function ExpenseClaimForm({}) {
+type ExpenseClaimFormProps =
+  | {
+      mode: "new";
+    }
+  | {
+      mode: "edit";
+      expenseClaim: ExpenseClaim;
+    };
+
+export default function ExpenseClaimForm(props: ExpenseClaimFormProps) {
+  const { mode } = props;
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
   const pathname = usePathname();
@@ -35,7 +49,13 @@ export default function ExpenseClaimForm({}) {
     setIsSubmitting(true);
 
     try {
-      await createExpenseClaim(data);
+      if (mode === "new") {
+        await createExpenseClaim(data);
+      }
+
+      if (mode === "edit") {
+        await updateExpenseClaim(props.expenseClaim.id, data);
+      }
 
       window.location.href = pathname;
     } catch (error) {
@@ -75,48 +95,58 @@ export default function ExpenseClaimForm({}) {
           onDismiss={() => setFormError(null)}
         />
       )}
-      <h3 className="h3 mb-4">New Request</h3>
+      <h3 className="h3 mb-4">
+        {mode === "new" && "New Request"}
+        {mode === "edit" && "Edit Request"}
+      </h3>
       <form
         onSubmit={handleSubmit(handleFormSubmit)}
-        className="flex flex-col gap-y-4"
+        className="flex flex-col gap-y-4 w-96"
         encType="multipart/form-data"
       >
         <Input
           placeholder="Reimbursement Request"
           label="Title"
-          className="w-96"
+          className="w-full"
+          defaultValue={mode === "edit" ? props.expenseClaim.title : ""}
           {...register("title")}
         />
         <Input
           placeholder="200"
           label="Amount"
-          className="w-96"
+          className="w-full"
+          disabled={mode === "edit"}
+          defaultValue={mode === "edit" ? props.expenseClaim.amount : ""}
           {...register("amount", { valueAsNumber: true })}
         />
         <Textarea
           label="Description"
           placeholder="Detail about your request"
-          className="w-96 h-32"
+          className="w-full h-32"
+          defaultValue={mode === "edit" ? props.expenseClaim.description : ""}
           {...register("description")}
         />
-        <div>
-          <label className="label pb-0">Attachments</label>
-          <p className="mb-3 text-xs text-gray-500 font-medium">
-            Upload attachment up to 3 files
-          </p>
-          <div className="w-96 flex flex-col gap-y-1">
-            <AttachmentPreview
-              attachment={attachment}
-              onRemoveAttachment={handleRemoveAttachment}
-            />
-            <AddAttachmentButton
-              attachment={attachment}
-              onAddAttachment={handleAddAttachment}
-            />
+        {mode === "new" && (
+          <div>
+            <label className="label pb-0">Attachments</label>
+            <p className="mb-3 text-xs text-gray-500 font-medium">
+              Upload attachment up to 3 files
+            </p>
+            <div className=" flex flex-col gap-y-1">
+              <AttachmentPreview
+                attachment={attachment}
+                onRemoveAttachment={handleRemoveAttachment}
+              />
+              <AddAttachmentButton
+                attachment={attachment}
+                onAddAttachment={handleAddAttachment}
+              />
+            </div>
           </div>
-        </div>
-        <Button className="mt-4" size="sm" disabled={isSubmitting}>
-          Submit Request
+        )}
+        <Button size="sm" disabled={isSubmitting}>
+          {mode === "new" && "Submit Request"}
+          {mode === "edit" && "Update Request"}
         </Button>
       </form>
     </>

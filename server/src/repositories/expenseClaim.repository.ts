@@ -6,9 +6,10 @@ import ExpenseClaim, {
 import User from "@/entities/User";
 import { RECORD_PER_PAGE } from "@/helpers/paginationHelper";
 import { queue } from "@/workers";
-import { QueryOrder } from "@mikro-orm/core";
+import { QueryOrder, wrap } from "@mikro-orm/core";
 import { EntityRepository } from "@mikro-orm/postgresql";
 import { validate } from "class-validator";
+import { pick } from "radash";
 
 export default class ExpenseClaimRepository extends EntityRepository<ExpenseClaim> {
   async getExpenseClaim(id: number, { populate }: { populate?: any } = {}) {
@@ -42,6 +43,13 @@ export default class ExpenseClaimRepository extends EntityRepository<ExpenseClai
     await entityManager.persistAndFlush(expenseClaim);
 
     return { expenseClaim };
+  }
+
+  async updateExpenseClaim(expenseClaim: ExpenseClaim, params: any) {
+    const expenseClaimParams = pick(params, ["title", "description"]);
+    wrap(expenseClaim).assign(expenseClaimParams);
+
+    return entityManager.flush();
   }
 
   async listExpenseClaim(page: number, options: { userId?: number } = {}) {

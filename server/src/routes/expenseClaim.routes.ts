@@ -15,6 +15,7 @@ router.get(
   expenseClaimController.listExpenseClaimForReview
 );
 router.get("/expense-claims/:id", expenseClaimController.getExpenseClaim);
+router.put("/expense-claims/:id", expenseClaimController.updateExpenseClaim);
 router.put(
   "/expense-claims/:id/approve",
   expenseClaimController.approveExpenseClaim

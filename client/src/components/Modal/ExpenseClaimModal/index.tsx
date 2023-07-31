@@ -18,7 +18,7 @@ export default function ExpenseClaimModal() {
         New
       </Button>
       <BaseModal id="create-expense-claim-modal">
-        <ExpenseClaimForm />
+        <ExpenseClaimForm mode="new" />
       </BaseModal>
     </>
   );
