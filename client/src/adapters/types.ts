@@ -45,3 +45,16 @@ export interface User {
   roles: { name: string }[];
   userDepartments: { role: UserDepartmentRole }[];
 }
+
+export interface Department {
+  id: number;
+  name: string;
+  userCount: number;
+  userDepartments: UserDepartment[];
+  createdAt: string;
+}
+
+export interface UserDepartment {
+  role: string;
+  user: User;
+}

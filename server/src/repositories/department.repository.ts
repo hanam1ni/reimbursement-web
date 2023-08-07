@@ -48,7 +48,10 @@ export default class DepartmentRepository extends EntityRepository<Department> {
   }
 
   async getDepartment(id: number) {
-    const department = await this.findOne({ id }, { populate: ["users"] });
+    const department = await this.findOne(
+      { id },
+      { populate: ["userDepartments.user"] }
+    );
 
     return department;
   }

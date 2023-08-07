@@ -2,7 +2,7 @@ import { listDepartment } from "@/adapters/server/department";
 import Button from "@/components/Button";
 import ContainerBlock from "@/components/ContainerBlock";
 import Pagination from "@/components/Pagination";
-import DepartmentTable from "@/components/Table/DepartmentTable";
+import DepartmentTable from "@/components/table/DepartmentTable";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
@@ -17,7 +17,7 @@ export default async function DepartmentsPage({
   return (
     <ContainerBlock className="h-full flex flex-col">
       <div className="mb-8 flex justify-between items-center">
-        <h1>Departments</h1>
+        <h1 className="h1">Departments</h1>
         <Link href={"/departments/new"}>
           <Button size="sm">
             {" "}

@@ -1,37 +1,35 @@
 "use client";
 
+import { Department } from "@/adapters/types";
+import { ElementType } from "@/lib/typesUtil";
+import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   createColumnHelper,
   flexRender,
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { useRouter } from "next/navigation";
 import React from "react";
 import style from "../Table.module.scss";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
-import { Department } from "@/adapters/types";
-import Link from "next/link";
 
-const columnHelper = createColumnHelper<Department>();
+const columnHelper =
+  createColumnHelper<ElementType<Department["userDepartments"]>>();
 
 const columns = [
-  columnHelper.accessor("name", {
+  columnHelper.accessor((row) => `${row.user.firstName} ${row.user.lastName}`, {
     id: "name",
-    cell: (info) => (
-      <Link
-        href={`/departments/${info.row.original.id}`}
-        className="font-semibold"
-        key={info.getValue()}
-      >
-        {info.getValue()}
-      </Link>
-    ),
     header: () => <th className={`w-2/5 ${style.th}`}>Name</th>,
   }),
-  columnHelper.accessor("userCount", {
-    id: "userCount",
-    header: () => <th className={`w-2/5 ${style.th}`}>Member</th>,
+  columnHelper.accessor("role", {
+    id: "role",
+    cell: (info) => (
+      <div className="capitalize" key={info.getValue()}>
+        {info.getValue()}
+      </div>
+    ),
+    header: () => <th className={`w-2/5 ${style.th}`}>Role</th>,
   }),
   columnHelper.display({
     id: "action",
@@ -41,7 +39,6 @@ const columns = [
         <label
           tabIndex={0}
           className="inline-flex items-center p-1 cursor-pointer transition rounded-md hover:bg-gray-200"
-          onClick={(event) => event.stopPropagation()}
         >
           <FontAwesomeIcon icon={faEllipsis} className="w-4 h-4" />
         </label>
@@ -61,12 +58,13 @@ const columns = [
   }),
 ];
 
-export default function DepartmentTable({ data }: { data: any }) {
+export default function DepartmentMemberTable({ data }: { data: any }) {
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
+  const router = useRouter();
 
   return (
     <table className={`${style.table}`}>

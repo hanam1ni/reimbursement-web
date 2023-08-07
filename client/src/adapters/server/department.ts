@@ -2,11 +2,7 @@ import "server-only";
 
 import { parsePageNumber } from "@/helpers/paginationHelper";
 import * as baseAdapter from "./baseAdapter";
-
-export interface Department {
-  name: string;
-  userCount: number;
-}
+import { Department } from "@/adapters/types";
 
 export const listDepartment = (page: any) => {
   const pageNumber = parsePageNumber(page);
@@ -14,4 +10,8 @@ export const listDepartment = (page: any) => {
   return baseAdapter.get<baseAdapter.ListApiResponse<Department>>(
     `/departments?page=${pageNumber}`
   );
+};
+
+export const getDepartment = (id: string | number) => {
+  return baseAdapter.get<Department>(`/departments/${id}`);
 };

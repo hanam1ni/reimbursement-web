@@ -1,6 +1,6 @@
 import { listReviewExpenseClaim } from "@/adapters/server/expenseClaim";
 import Pagination from "@/components/Pagination";
-import ExpenseClaimTable from "@/components/Table/ExpenseClaimTable";
+import ExpenseClaimTable from "@/components/table/ExpenseClaimTable";
 
 export default async function ReviewRequestsPage({
   searchParams,

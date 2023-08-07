@@ -1,0 +1,7 @@
+.item {
+  @apply px-3 py-2 rounded cursor-pointer transition;
+
+  &[data-selected] {
+    @apply bg-gray-200 text-primary;
+  }
+}

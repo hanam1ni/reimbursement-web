@@ -1,7 +1,7 @@
 import { listUsers } from "@/adapters/server/user";
 import ContainerBlock from "@/components/ContainerBlock";
 import Pagination from "@/components/Pagination";
-import UserTable from "@/components/Table/UserTable";
+import UserTable from "@/components/table/UserTable";
 
 export default async function UsersPage({ searchParams }: ServerPageProps) {
   const { page } = searchParams;

@@ -2,10 +2,10 @@
 
 import { User, listUsers } from "@/adapters/client/user";
 import { debounce } from "radash";
-import { useEffect, useRef, useState } from "react";
-import Input from "@/components/Input";
+import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserSecret } from "@fortawesome/free-solid-svg-icons";
+import InputSelect from "@/components/InputSelect";
 
 export default function UserSelect({
   onSelectUser,
@@ -13,110 +13,60 @@ export default function UserSelect({
   onSelectUser: (user: User) => void;
 }) {
   const [userOptions, setUserOptions] = useState<User[]>([]);
-  const [userInputDirty, setUserInputDirty] = useState(false);
-  const [userInput, setUserInput] = useState("");
-  const [isDisplayUserDropdown, displayUserDropdown] = useState(false);
-  const userFormGroupRef = useRef<HTMLDivElement>(null);
+  const [showList, setShowList] = useState(false);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        userFormGroupRef.current &&
-        !userFormGroupRef.current.contains(event.target as Node)
-      ) {
-        displayUserDropdown(false);
-      }
-    };
-
-    document.addEventListener("click", handleClickOutside, true);
-
-    return () => {
-      document.removeEventListener("click", handleClickOutside, true);
-    };
-  });
-
-  const onSearchInputChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    if (event.target.value.length < 3) {
-      return;
+  const onSearchInputChange = async (keyword: string) => {
+    if (keyword.length < 3) {
+      return setShowList(false);
     }
 
-    const users = await listUsers(event.target.value);
+    const users = await listUsers(keyword);
 
     setUserOptions(users.data.data);
-    setUserInputDirty(true);
-  };
-
-  const handleSelectUser = (user: User) => {
-    setUserInput("");
-    displayUserDropdown(false);
-    setUserInputDirty(false);
-    onSelectUser(user);
+    setShowList(true);
   };
 
   return (
-    <div className="relative" ref={userFormGroupRef}>
-      <label className="label">Users</label>
-      <Input
+    <div className="relative w-96">
+      <InputSelect.Container
+        label="Users"
         placeholder="Search Users by Email"
-        className="w-96"
-        value={userInput}
-        onFocus={() => displayUserDropdown(true)}
-        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-          setUserInput(event.target.value);
-          debounce({ delay: 300 }, onSearchInputChange)(event);
+        onValueChange={(keyword) => {
+          debounce({ delay: 300 }, onSearchInputChange)(keyword);
         }}
-      />
-      {isDisplayUserDropdown && userInputDirty && (
-        <div className="absolute max-h-64 overflow-y-auto mt-2 z-10 shadow-lg">
-          <UserDropdown
-            userOptions={userOptions}
-            onSelectUser={handleSelectUser}
-          />
-        </div>
-      )}
+        emptyPlaceholder={<EmptyPlaceholder />}
+        hideList={!showList}
+      >
+        {userOptions.map((user) => {
+          const { firstName, lastName, email } = user;
+
+          return (
+            <InputSelect.OptionItem
+              key={email}
+              onSelect={() => onSelectUser(user)}
+            >
+              <div className="flex justify-between items-end">
+                <div className="text-sm font-medium">
+                  {firstName} {lastName}
+                </div>
+                <div className="text-xs">{email}</div>
+              </div>
+            </InputSelect.OptionItem>
+          );
+        })}
+      </InputSelect.Container>
     </div>
   );
 }
 
-function UserDropdown({
-  userOptions,
-  onSelectUser,
-}: {
-  userOptions: User[];
-  onSelectUser: (user: User) => void;
-}) {
+function EmptyPlaceholder() {
   return (
-    <ul className="w-64 bg-white border border-gray-200 rounded">
-      {userOptions.length > 0 ? (
-        userOptions.map((user) => {
-          const { firstName, lastName, email } = user;
-
-          return (
-            <li
-              key={email}
-              className="px-3 py-2 rounded cursor-pointer transition hover:bg-gray-200 hover:text-primary"
-              onClick={() => {
-                onSelectUser(user);
-              }}
-            >
-              <div className="font-medium">
-                {firstName} {lastName}
-              </div>
-              <div className="text-sm">{email}</div>
-            </li>
-          );
-        })
-      ) : (
-        <div className="py-8 flex flex-col items-center">
-          <FontAwesomeIcon
-            className="mb-4 h-8 w-8 text-gray-700"
-            icon={faUserSecret}
-          />
-          <div className="font-medium">No users found</div>
-        </div>
-      )}
-    </ul>
+    <div className="p-8 flex flex-col items-center">
+      <FontAwesomeIcon
+        className="mb-4 h-8 w-8 text-gray-700"
+        icon={faUserSecret}
+      />
+      <div className="font-medium">No users found</div>
+    </div>
   );
 }

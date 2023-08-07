@@ -21,3 +21,7 @@ body {
 .label {
   @apply block pl-0 py-0 mb-1 text-sm font-medium;
 }
+
+.input {
+  @apply px-4 h-10 border border-gray-300 rounded-md bg-white shadow-sm text-sm font-medium disabled:opacity-50;
+}

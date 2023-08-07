@@ -13,10 +13,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         <input
           ref={ref}
           type={type || "text"}
-          className={classNames(
-            "px-4 h-10 border border-gray-300 rounded-md bg-white shadow-sm text-sm font-medium disabled:opacity-50",
-            className
-          )}
+          className={classNames("input", className)}
           {...props}
         />
       </div>
