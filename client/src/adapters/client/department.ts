@@ -9,3 +9,9 @@ export const createDepartment = ({
 }) => {
   return baseAdapter.post("/departments", { name, userIds });
 };
+
+export const bulkAssignMember = (departmentId: number, userIds: number[]) => {
+  return baseAdapter.post(`/departments/${departmentId}/bulk-assign-user`, {
+    userIds,
+  });
+};

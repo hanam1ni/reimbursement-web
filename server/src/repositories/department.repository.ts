@@ -19,6 +19,7 @@ export default class DepartmentRepository extends EntityRepository<Department> {
       const users = await entityManager
         .getRepository(User)
         .find({ id: userIds });
+
       const userDepartments = users.map((user) => {
         return new UserDepartment({
           user,

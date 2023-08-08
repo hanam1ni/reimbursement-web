@@ -5,11 +5,12 @@ import { entityManager } from "@/lib/db";
 import Department from "@/entities/Department";
 import User from "@/entities/User";
 import { validate } from "class-validator";
-import { UniqueConstraintViolationException } from "@mikro-orm/core";
+import { UniqueConstraintViolationException, wrap } from "@mikro-orm/core";
 import { buildIsNotUniqueError } from "@/helpers/errorHelper";
+import { pick } from "radash";
 
 export default class UserDepartmentRepository extends EntityRepository<UserDepartment> {
-  async addUser(
+  async assignUser(
     departmentId: number,
     userId: number,
     role: UserDepartmentRole
@@ -39,5 +40,47 @@ export default class UserDepartmentRepository extends EntityRepository<UserDepar
 
       throw error;
     }
+  }
+
+  async bulkAssignUser(departmentId: number, userIds: number[]) {
+    let success = 0;
+    let failed = 0;
+
+    for (const userId of userIds) {
+      try {
+        const { error } = await this.assignUser(
+          departmentId,
+          userId,
+          UserDepartmentRole.MEMBER
+        );
+
+        if (error) {
+          throw error;
+        }
+
+        success += 1;
+      } catch (error) {
+        failed += 1;
+      }
+    }
+
+    return { success, failed };
+  }
+
+  async getUserDepartment(id: number) {
+    return this.findOne({ id });
+  }
+
+  async updateUserDepartment(userDepartment: UserDepartment, params: any) {
+    const userDepartmentParams = pick(params, ["role"]);
+    wrap(userDepartment).assign(userDepartmentParams);
+
+    return entityManager.flush();
+  }
+
+  async deleteUserDepartment(id: number) {
+    const userDepartment = this.getReference(id);
+
+    return entityManager.remove(userDepartment).flush();
   }
 }

@@ -2,6 +2,7 @@ import { getDepartment } from "@/adapters/server/department";
 import DepartmentSummary from "./_components/DepartmentSummary";
 import ContainerBlock from "@/components/ContainerBlock";
 import DepartmentMemberTable from "@/components/table/DepartmentMemberTable";
+import DepartmentAction from "./_components/DepartmentAction";
 
 export default async function DepartmentDetailPage({
   params,
@@ -16,7 +17,10 @@ export default async function DepartmentDetailPage({
         <DepartmentSummary department={department.data} />
       </ContainerBlock>
       <ContainerBlock>
-        <h3 className="h3 mb-6">Members</h3>
+        <div className="flex justify-between">
+          <h3 className="h3 mb-6">Members</h3>
+          <DepartmentAction department={department.data} />
+        </div>
         <DepartmentMemberTable data={department.data.userDepartments} />
       </ContainerBlock>
     </div>

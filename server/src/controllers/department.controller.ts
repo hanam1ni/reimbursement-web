@@ -5,7 +5,8 @@ import {
   parsePageNumber,
 } from "@/helpers/paginationHelper";
 import { entityManager } from "@/lib/db";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
+import * as ParamsHelper from "@/helpers/paramsHelper";
 
 export const createDepartment = async (req: Request, res: Response) => {
   const { name, userIds } = req.body;
@@ -47,16 +48,42 @@ export const getDepartment = async (req: Request, res: Response) => {
   res.json(department);
 };
 
-export const addUser = async (req: Request, res: Response) => {
-  const departmentId = Number(req.params.id);
+export const assignUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const departmentId = ParamsHelper.parseId(req.params.id);
 
-  if (!departmentId) {
-    return res.status(400).json();
+    const { userId, role } = req.body;
+
+    await entityManager
+      .getRepository(UserDepartment)
+      .assignUser(departmentId, userId, role);
+
+    return res.status(204).send();
+  } catch (error) {
+    next(error);
   }
+};
 
-  const { userId, role } = req.body;
+export const bulkAssignUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const departmentId = ParamsHelper.parseId(req.params.id);
 
-  await entityManager
-    .getRepository(UserDepartment)
-    .addUser(departmentId, userId, role);
+    const { userIds } = req.body;
+
+    const result = await entityManager
+      .getRepository(UserDepartment)
+      .bulkAssignUser(departmentId, userIds);
+
+    return res.json(result);
+  } catch (error) {
+    next(error);
+  }
 };

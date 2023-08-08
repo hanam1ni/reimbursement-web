@@ -1,14 +1,14 @@
 "use client";
 
 import { createDepartment } from "@/adapters/client/department";
-import { User } from "@/adapters/client/user";
+import { User } from "@/adapters/types";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import Toast from "@/components/Toast";
+import UserSearchSelect from "@/components/searchSelect/UserSearchSelect";
+import SelectedUserList from "@/components/searchSelect/UserSearchSelect/SelectedUserList";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import SelectedUserList from "./SelectedUserList";
-import UserSelect from "./UserSelect";
 
 interface IDepartmentForm {
   name: string;
@@ -78,7 +78,7 @@ export default function DepartmentForm() {
           {...register("name")}
         />
       </div>
-      <UserSelect onSelectUser={onSelectUser} />
+      <UserSearchSelect label={true} onSelectUser={onSelectUser} />
       {users.length > 0 && (
         <SelectedUserList users={users} onRemoveUser={onRemoveUser} />
       )}

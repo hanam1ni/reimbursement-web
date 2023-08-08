@@ -4,7 +4,6 @@ import User from "@/entities/User";
 import { entityManager } from "@/lib/db";
 import { InvalidParamsError } from "@/lib/errors";
 import { queue } from "@/workers";
-import { EntityManager } from "@mikro-orm/core";
 
 export const createExpenseClaim = async (
   user: User,
@@ -37,11 +36,11 @@ export const createExpenseClaim = async (
   return createdExpenseClaim as ExpenseClaim;
 };
 
-const createAttachments = (
+const createAttachments = async (
   files: Express.Multer.File[],
   expenseClaim: ExpenseClaim
 ) => {
-  files.forEach(async (file) => {
+  for (const file of files) {
     const { error: attachmentError } = await entityManager
       .getRepository(ExpenseClaimAttachment)
       .createAttachment({
@@ -53,5 +52,5 @@ const createAttachments = (
     if (attachmentError) {
       throw new InvalidParamsError({ reason: attachmentError });
     }
-  });
+  }
 };

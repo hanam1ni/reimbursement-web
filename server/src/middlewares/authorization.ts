@@ -5,8 +5,6 @@ export const authorizeUser = (role: string) => {
     const { user } = req;
 
     for (const userRole of user?.roles || []) {
-      console.log(role);
-      console.log(userRole.name);
       if (role == userRole.name) {
         return next();
       }

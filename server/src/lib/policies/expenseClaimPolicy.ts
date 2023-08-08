@@ -12,8 +12,7 @@ export const authorizeGetExpenseClaim = (
   }
 
   const managerRoles = managerRoleForExpenseClaim(user, expenseClaim);
-  console.log(user);
-  console.log(expenseClaim);
+
   if (managerRoles.length > 0) {
     return true;
   }

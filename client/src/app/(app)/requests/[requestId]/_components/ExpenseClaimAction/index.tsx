@@ -26,7 +26,7 @@ export default function ExpenseClaimAction({
 
   return (
     <div
-      className={classNames("dropdown dropdown-end pr-4", {
+      className={classNames("dropdown dropdown-end", {
         "opacity-0 pointer-events-none": !show,
         "opacity-100": show,
       })}

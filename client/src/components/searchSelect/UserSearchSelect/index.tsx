@@ -1,16 +1,19 @@
 "use client";
 
-import { User, listUsers } from "@/adapters/client/user";
+import { listUsers } from "@/adapters/client/user";
+import { User } from "@/adapters/types";
+import SearchSelect from "@/components/searchSelect/SearchSelect";
+import { faUserSecret } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { debounce } from "radash";
 import { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserSecret } from "@fortawesome/free-solid-svg-icons";
-import InputSelect from "@/components/InputSelect";
 
-export default function UserSelect({
+export default function UserSearchSelect({
   onSelectUser,
+  label,
 }: {
   onSelectUser: (user: User) => void;
+  label?: boolean;
 }) {
   const [userOptions, setUserOptions] = useState<User[]>([]);
   const [showList, setShowList] = useState(false);
@@ -27,9 +30,9 @@ export default function UserSelect({
   };
 
   return (
-    <div className="relative w-96">
-      <InputSelect.Container
-        label="Users"
+    <div className="relative w-full">
+      <SearchSelect.Container
+        label={label ? "Users" : ""}
         placeholder="Search Users by Email"
         onValueChange={(keyword) => {
           debounce({ delay: 300 }, onSearchInputChange)(keyword);
@@ -41,7 +44,7 @@ export default function UserSelect({
           const { firstName, lastName, email } = user;
 
           return (
-            <InputSelect.OptionItem
+            <SearchSelect.OptionItem
               key={email}
               onSelect={() => onSelectUser(user)}
             >
@@ -51,10 +54,10 @@ export default function UserSelect({
                 </div>
                 <div className="text-xs">{email}</div>
               </div>
-            </InputSelect.OptionItem>
+            </SearchSelect.OptionItem>
           );
         })}
-      </InputSelect.Container>
+      </SearchSelect.Container>
     </div>
   );
 }

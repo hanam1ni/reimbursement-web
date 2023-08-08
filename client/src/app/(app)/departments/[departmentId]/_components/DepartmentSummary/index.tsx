@@ -12,7 +12,6 @@ interface DepartmentSummaryProps {
 export default function DepartmentSummary({
   department,
 }: DepartmentSummaryProps) {
-  console.log(department);
   return (
     <>
       <div className="flex justify-between mb-8">

@@ -56,20 +56,19 @@ function Container({
           }}
           onFocus={() => setDisplayList(true)}
         />
-        {
-          <Command.List
-            className={classNames(
-              "absolute w-full bg-white mt-2 z-10 border border-gray-200 rounded",
-              { hidden: hideList || !inputDirty || !displayList }
-            )}
-          >
-            <Command.Empty className="w-full">
-              {emptyPlaceholder ? emptyPlaceholder : "No result found"}
-            </Command.Empty>
 
-            {children}
-          </Command.List>
-        }
+        <Command.List
+          className={classNames(
+            "absolute w-full max-h-60 overflow-y-auto bg-white mt-2 z-10 border border-gray-200 rounded",
+            { hidden: hideList || !inputDirty || !displayList }
+          )}
+        >
+          <Command.Empty className="w-full">
+            {emptyPlaceholder ? emptyPlaceholder : "No result found"}
+          </Command.Empty>
+
+          {children}
+        </Command.List>
       </Command>
     </>
   );
@@ -89,9 +88,9 @@ function OptionItem({
   );
 }
 
-const InputSelect = {
+const SearchSelect = {
   Container,
   OptionItem,
 };
 
-export default InputSelect;
+export default SearchSelect;

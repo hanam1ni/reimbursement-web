@@ -12,7 +12,7 @@ export const login = (req: Request, res: Response) => {
     }
 
     req.logIn(user, (err) => {
-      return res.status(204).json();
+      return res.status(204).send();
     });
   })(req, res);
 };
