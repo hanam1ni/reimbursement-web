@@ -1,5 +1,5 @@
-import classNames from "classnames";
 import React from "react";
+import { twMerge } from "tailwind-merge";
 
 interface InputProps extends React.HTMLProps<HTMLInputElement> {
   label?: string;
@@ -13,7 +13,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         <input
           ref={ref}
           type={type || "text"}
-          className={classNames("input", className)}
+          className={twMerge("input", className)}
           {...props}
         />
       </div>

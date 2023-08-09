@@ -75,6 +75,14 @@ export default class UserDepartmentRepository extends EntityRepository<UserDepar
     const userDepartmentParams = pick(params, ["role"]);
     wrap(userDepartment).assign(userDepartmentParams);
 
+    const validationErrors = await validate(userDepartment);
+
+    if (validationErrors.length > 0) {
+      await entityManager.refresh(userDepartment);
+
+      return { error: validationErrors };
+    }
+
     return entityManager.flush();
   }
 

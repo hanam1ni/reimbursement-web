@@ -55,6 +55,7 @@ export interface Department {
 }
 
 export interface UserDepartment {
-  role: string;
+  id: number;
+  role: "member" | "manager";
   user: User;
 }

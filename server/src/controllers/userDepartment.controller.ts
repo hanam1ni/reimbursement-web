@@ -1,7 +1,7 @@
 import UserDepartment from "@/entities/UserDepartment";
 import * as ParamsHelper from "@/helpers/paramsHelper";
 import { entityManager } from "@/lib/db";
-import { RecordNotFoundError } from "@/lib/errors";
+import { InvalidParamsError, RecordNotFoundError } from "@/lib/errors";
 import { NextFunction, Request, Response } from "express";
 
 export const updateUserDepartment = async (
@@ -20,9 +20,13 @@ export const updateUserDepartment = async (
       throw new RecordNotFoundError();
     }
 
-    await entityManager
+    const result = await entityManager
       .getRepository(UserDepartment)
       .updateUserDepartment(userDepartment, req.body);
+
+    if (result?.error) {
+      throw new InvalidParamsError({ reason: result.error });
+    }
 
     return res.json(userDepartment);
   } catch (error) {

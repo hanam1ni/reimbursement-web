@@ -39,5 +39,5 @@ body {
 }
 
 .input {
-  @apply px-4 h-10 border border-gray-300 rounded-md bg-white shadow-sm text-sm font-medium disabled:opacity-50;
+  @apply px-4 h-10 border border-gray-300 rounded-md bg-white shadow-sm text-sm font-medium disabled:bg-white disabled:border-gray-300 disabled:opacity-50;
 }
